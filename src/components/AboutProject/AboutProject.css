@@ -1,0 +1,14 @@
+.aboutProject__container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 110px 0;
+}
+
+.aboutProject__title {
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: 400;
+  border-bottom: 1px solid #DADADA;
+  padding-bottom: 23px;
+  margin: 0;
+}

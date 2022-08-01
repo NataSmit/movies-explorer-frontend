@@ -30,3 +30,25 @@
   font-size: 12px;
   line-height: 133%;
 }
+
+@media(max-width: 1190px) {
+  .header__container {
+    max-width: 668px;
+  }
+}
+
+@media(max-width: 767px) {
+  .header__container {
+    max-width: 284px;
+  }
+  .header__login-btn {
+    padding: 5px 12px;
+    font-size: 10px;
+    line-height: 160%;
+  }
+  .header__registration-btn {
+    font-size: 10px;
+    line-height: 160%;
+    margin-right: 14px;
+  }
+}
