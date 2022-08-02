@@ -4,11 +4,122 @@
   padding: 110px 0;
 }
 
-.aboutProject__title {
-  font-size: 22px;
-  line-height: 27px;
-  font-weight: 400;
-  border-bottom: 1px solid #DADADA;
-  padding-bottom: 23px;
+.aboutProject__body {
+  padding: 70px 0 110px 0;
+  display: flex;
+}
+
+.aboutProject__info {
+  margin-right: 40px;
+}
+
+.aboutProject__info:last-child {
+  margin-right: 0;
+}
+
+.aboutProject__fact {
+  font-size: 20px;
+  line-height: 24px;
+  max-width: 550px;
+  margin: 0 0 26px 0;
+}
+
+.aboutProject__details {
+  font-size: 14px;
+  line-height: 20px;
+  max-width: 550px;
   margin: 0;
+}
+
+.aboutProject__timetable {
+  max-width: 1140px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.aboutProject__app {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 121%;
+  color: #8B8B8B;
+  margin: 0;
+  text-align: center;
+  padding-top: 14px;
+}
+
+.aboutProject__term {
+  padding: 9px 0;
+  margin: 0;
+  background-color: #3DDC84;
+  text-align: center;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.aboutProject__term_type_front {
+  background-color: #303030;
+  color: #FFFFFF;
+}
+
+@media(max-width: 1190px) {
+  .aboutProject__container {
+    max-width: 668px;
+    padding: 90px 0;
+  }
+  .aboutProject__details {
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 319px;
+  }
+  .aboutProject__info {
+    margin-right: 30px;
+  }
+  .aboutProject__timetable {
+    max-width: 668px;
+  }
+  .aboutProject__app {
+    font-weight: 400;
+  }
+}
+
+@media(max-width: 767px) {
+  .aboutProject__container {
+    max-width: 284px;
+    padding: 70px 0;
+  }
+  .aboutProject__body {
+    padding: 60px 0;
+    flex-direction: column;
+  }
+  .aboutProject__fact {
+    font-size: 18px;
+    line-height: 22px;
+    max-width: 284px;
+    margin: 0 0 16px 0;
+  }
+  .aboutProject__details {
+    font-size: 11px;
+    line-height: 16px;
+    max-width: 284px;
+  }
+  .aboutProject__info {
+    margin-bottom: 56px;
+  }
+  .aboutProject__info:last-child {
+    margin-bottom: 0;
+  }
+  .aboutProject__timetable {
+    max-width: 284px;
+    grid-template-columns: 1fr 2fr;
+  }
+  .aboutProject__term {
+    padding: 11px 0;
+    line-height: 15px;
+  }
+  .aboutProject__app {
+    font-size: 11px;
+    line-height: 13px;
+    padding-top: 10px;
+  }
 }
