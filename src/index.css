@@ -1,8 +1,11 @@
 @import url('./vendor/normalize.css');
 @import url('./vendor/fonts/fonts.css');
 @import url('./blocks/root/root.css');
+@import url('./blocks/wrapper/wrapper.css');
 @import url('./components/Header/Header.css');
 @import url('./components/Promo/Promo.css');
 @import url('./components/AboutProject/AboutProject.css');
 @import url('./components/LandingTitle/LandingTitle.css');
 @import url('./components/Techs/Techs.css');
+@import url('./components/AboutMe/AboutMe.css');
+@import url('./components/Footer/Footer.css');
