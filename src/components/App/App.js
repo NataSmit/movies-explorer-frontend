@@ -6,11 +6,18 @@ import LandingTitle from '../LandingTitle/LandingTitle';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
+import Movies from '../Movies/Movies';
+import SearchForm from '../SearchForm/SearchForm';
 
+import {useState} from 'react';
 
 
 
 function App() {
+
+  const [loggedIn, setLoggedIn] = useState(true);
+
+
   return (
     <div className='wrapper'>
       <div className="root">
@@ -28,6 +35,10 @@ function App() {
           </AboutMe>
           <Footer />
         </Main>
+        <Movies>
+          <Header loggedIn={loggedIn}/>
+          <SearchForm />
+        </Movies>
   
       </div>
     </div>

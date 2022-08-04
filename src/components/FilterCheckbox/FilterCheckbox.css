@@ -1,0 +1,8 @@
+.filterCheckbox {
+  padding-top: 29px;
+  text-align: center;
+}
+
+.filterCheckbox__input {
+  margin-right: 12px;
+}
