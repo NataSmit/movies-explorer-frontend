@@ -2,3 +2,15 @@
   max-width: 1140px;
   margin: 0 auto;
 }
+
+@media(max-width: 1190px) {
+  .movies {
+    max-width: 708px;
+  }
+}
+
+@media(max-width: 767px) {
+  .movies {
+    max-width: 300px;
+  }
+}

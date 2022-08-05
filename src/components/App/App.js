@@ -8,6 +8,7 @@ import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList'
 
 import {useState} from 'react';
 
@@ -38,6 +39,8 @@ function App() {
         <Movies>
           <Header loggedIn={loggedIn}/>
           <SearchForm />
+          <MoviesCardList />
+          <Footer />
         </Movies>
   
       </div>

@@ -43,5 +43,21 @@
   color: white;
   z-index: 5;
   background-color: white;
+}
+
+@media(max-width: 1190px) {
+  .searchForm__input {
+    width: 654px;
+  }
+  .searchForm {
+    padding: 80px 0 39px;
+  }
+}
+
+@media(max-width: 767px) {
+  .searchForm__input {
+    width: 238px;
+    padding: 13px 0 13px 13px;
+  }
   
 }
