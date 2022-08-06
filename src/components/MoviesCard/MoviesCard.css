@@ -1,3 +1,7 @@
+.moviesCardList__item {
+  max-width: 360px;
+}
+
 .moviesCardList__item-container {
   width: 360px;
   height: 202px;
@@ -40,6 +44,9 @@
     width: 339px;
     height: 190px;
   }
+  .moviesCardList__item {
+    max-width: 339px;
+  }
   .moviesCardList__item-description {
     width: 339px;
     padding-top: 25px;
@@ -50,6 +57,9 @@
   .moviesCardList__item-container {
     width: 300px;
     height: 168px;
+  }
+  .moviesCardList__item {
+    max-width: 300px;
   }
   .moviesCardList__item-description {
     width: 300px;

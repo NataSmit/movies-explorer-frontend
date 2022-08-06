@@ -8,15 +8,17 @@ import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList'
-
-import {useState} from 'react';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile'
 
 
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(true);
+  const loggedIn = true;
+  const saved = true;
 
 
   return (
@@ -40,8 +42,19 @@ function App() {
           <Header loggedIn={loggedIn}/>
           <SearchForm />
           <MoviesCardList />
+          <Preloader />
           <Footer />
         </Movies>
+        <SavedMovies>
+          <Header loggedIn={loggedIn}/>
+          <SearchForm />
+          <MoviesCardList saved={saved} />
+          <Preloader />
+          <Footer />
+        </SavedMovies>
+        <Profile>
+          <Header loggedIn={loggedIn}/>
+        </Profile>
   
       </div>
     </div>

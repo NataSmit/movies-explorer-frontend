@@ -14,7 +14,7 @@ import film11 from '../../images/films/pic__COLOR_pic-7.png';
 import film12 from '../../images/films/pic__COLOR_pic-11.png';
 
 
-export default function MoviesCardList() {
+export default function MoviesCardList({saved}) {
   return (
     <div className='moviesCardList'>
       <ul className='moviesCardList__list'>
@@ -32,7 +32,7 @@ export default function MoviesCardList() {
         <MoviesCard picture={film12} title={'По волнам: Искусство звука в кино'} duration={'1ч 17м'} />
       </ul>
       <div className='moviesCardList__more'>
-        <button className='moviesCardList__more-btn'>Ещё</button>
+        <button className={`moviesCardList__more-btn ${saved ? 'moviesCardList__more-btn_hidden' : ''}`}>Ещё</button>
       </div>
     </div>
   )
