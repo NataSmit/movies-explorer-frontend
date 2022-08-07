@@ -85,6 +85,10 @@
   padding: 18px 0;
 }
 
+.header__container_small {
+  max-width: 396px;
+}
+
 .header__registration-btn {
   margin-right: 30px;
   background-color: transparent;

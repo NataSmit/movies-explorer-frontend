@@ -11,7 +11,9 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import SavedMovies from '../SavedMovies/SavedMovies';
-import Profile from '../Profile/Profile'
+import Profile from '../Profile/Profile';
+import Register from '../Register/Register'
+
 
 
 
@@ -19,6 +21,7 @@ function App() {
 
   const loggedIn = true;
   const saved = true;
+  const minimal = true;
 
 
   return (
@@ -55,6 +58,9 @@ function App() {
         <Profile>
           <Header loggedIn={loggedIn}/>
         </Profile>
+        <Register>
+          <Header minimal={minimal}/>
+        </Register>
   
       </div>
     </div>

@@ -1,0 +1,51 @@
+.register__body {
+  max-width: 396px;
+  margin: 0 auto;
+}
+
+.register__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register__lable {
+  font-size: 10px;
+  line-height: 12px;
+  color: #8B8B8B;
+  margin: 20px 0 10px 0;
+}
+
+.register__lable:first-of-type {
+  margin: 0 0 10px 0;
+}
+
+.register__input {
+  font-size: 13px;
+  line-height: 16px;
+  padding: 15px;
+  background-color: #2F2F2F;
+  border-radius: 8px;
+  border: none;
+  color: #FFFFFF;
+}
+
+.register__link {
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8B8B8B;
+  margin: 16px 0 0;
+}
+
+.register__errorMessage {
+  margin: 10px 0 70px;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+}
