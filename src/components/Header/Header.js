@@ -15,6 +15,9 @@ export default function Header({loggedIn, minimal}) {
         <div className='header__account-container'>
           <button className={`header__account ${loggedIn ? 'header__account_visible' : ''}`}>Аккаунт</button>
         </div>
+        <button className={`header__burger ${loggedIn ? 'header__burger_visible' : ''}`}>
+          <span className='header__burger-span'></span>
+        </button>
         <div className={`header__buttons ${loggedIn || minimal? 'header__buttons_hidden' : ''}`}>
           <button className='header__registration-btn'>Регистрация</button>
           <button className='header__login-btn'>Войти</button>

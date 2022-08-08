@@ -16,7 +16,7 @@ export default function Register(props) {
           <input className='register__input' type='password'></input>
           <span className='register__errorMessage'>Что-то пошло не так...</span>
           <SubmitButton name={'Зарегистрироваться'}/>
-          <p className='register__link'>Уже зарегистрированы? Войти</p>
+          <span className='register__link'>Уже зарегистрированы? <span className='register__link_modifyed'>Войти</span></span>
         </form>
       </main>
     </div>

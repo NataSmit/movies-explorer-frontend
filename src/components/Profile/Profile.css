@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.profile__header {
+.profile__title {
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
@@ -132,3 +132,40 @@
   display: block;
 }
 
+@media(max-width: 1190px) {
+  .profile__body {
+    padding: 236px 0 269px;
+  }
+  .profile__title {
+    margin: 0 0 96px 0;
+  }
+  .profile__submit-container {
+    margin-top: 210px;
+  }
+}
+
+@media(max-width: 767px) {
+  .profile__body {
+    padding: 70px 0 40px;
+  }
+  .profile__title {
+    margin: 0 0 80px 0;
+  }
+  .profile__submit-container {
+    margin-top: 379px;
+  }
+  .profile__form {
+    width: 260px;
+  }
+  .profile__buttons {
+    width: 260px;
+  }
+  .profile__edit-btn {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .profile__exit {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

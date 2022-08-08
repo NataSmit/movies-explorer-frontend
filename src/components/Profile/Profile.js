@@ -31,7 +31,7 @@ export default function Profile(props) {
     <div className='profile'>
       {props.children}
       <main className='profile__body'>
-        <h1 className='profile__header'>Привет, Виталий!</h1>
+        <h1 className='profile__title'>Привет, Виталий!</h1>
         <form className='profile__form'>
           <div className='profile__input-container'>
             <label htmlFor='name' className='profile__lable'>Имя</label>

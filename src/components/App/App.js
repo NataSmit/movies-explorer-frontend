@@ -12,8 +12,9 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
-import Register from '../Register/Register'
-
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import NotFound from '../NotFound/NotFound';
 
 
 
@@ -61,6 +62,10 @@ function App() {
         <Register>
           <Header minimal={minimal}/>
         </Register>
+        <Login>
+          <Header minimal={minimal}/>
+        </Login>
+        <NotFound />
   
       </div>
     </div>
