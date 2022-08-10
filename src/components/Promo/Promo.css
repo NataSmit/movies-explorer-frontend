@@ -54,6 +54,7 @@
     line-height: 39px;
     margin: 0 auto 60px;
     padding: 0 10px;
+    max-width: 300px;
   }
   .promo{
     background-color: #073042;

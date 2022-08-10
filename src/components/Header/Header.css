@@ -26,6 +26,13 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 18px;
+  transition: opacity .3s;
+}
+
+.header__list-link {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
 }
 
 .header__list-item:last-child {
@@ -43,9 +50,7 @@
   font-size: 13px;
   line-height: 12px;
   display: none;
-  border: none;
-  background-color: transparent;
-  color: inherit;
+  transition: opacity .3s;
 }
 
 .header__account_visible {
@@ -66,6 +71,10 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.header__list-item_active {
+  border-bottom: 2px solid white;
+ }
 
 .header__buttons {
   display: block;
@@ -96,6 +105,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 133%;
+  transition: opacity .3s;
 }
 
 .header__login-btn {
@@ -106,18 +116,25 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 133%;
+  transition: opacity .3s;
 }
+
+.header__logo {
+  transition: opacity .3s;
+}
+
+.header__registration-btn:hover, .header__login-btn:hover, .header__logo:hover, 
+.header__burger:hover, .header__account:hover, .header__list-item:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 
 .header__burger {
   display: none;
   border: none;
   background-color: transparent;
   transition: opacity .3s;
-}
-
-.header__burger:hover {
-  cursor: pointer;
-  opacity: 0.7;
 }
 
 @media(max-width: 1190px) {

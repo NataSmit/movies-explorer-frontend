@@ -1,6 +1,8 @@
 import React from 'react'
 import Photo from '../../images/vitaliy.png'
 import PhotoTest from '../../images/imgForTesting.jpg'
+import Avatar from '../../images/ava.PNG'
+
 
 export default function AboutMe(props) {
   return (
@@ -8,41 +10,41 @@ export default function AboutMe(props) {
       {props.children}
       <div className='aboutMe__body'>
         <div className='aboutMe__info'>
-          <h2 className='aboutMe__title'>Виталий</h2>
+          <h2 className='aboutMe__title'>Наталья</h2>
           <p className='aboutMe__subtitle'>Фронтенд-разработчик, 30 лет</p>
           <p className='aboutMe__details'>
-            Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
-            и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. 
-            С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, 
-            начал заниматься фриланс-заказами и ушёл с постоянной работы.
+            Я живу в Воронеже, закончила факультет иностранных языков ВГПУ. Работала в службе поддержки 1-го уровня с 
+            иностранными клиентами, решила посмотреть на процесс с другой стороны, поэтому недавно начала кодить. 
           </p>
           <ul className='aboutMe__social-list'>
             <li className='aboutMe__social-item'><a className='aboutMe__social-link' href='#'>Facebook</a></li>
-            <li className='aboutMe__social-item'><a className='aboutMe__social-link' href='#'>Github</a></li>
+            <li className='aboutMe__social-item'>
+              <a className='aboutMe__social-link' href='https://github.com/NataSmit' target='blank'>Github</a>
+            </li>
           </ul>
         </div>
         <div className='aboutMe__photo-container'>
-          <img className='aboutMe__photo-item' src={Photo} alt='Фото студента'/>
+          <img className='aboutMe__photo-item' src={Avatar} alt='Фото студента'/>
         </div>
       </div>
       <div className='aboutMe__portfolio'>
         <p className='aboutMe__portfolio-title'>Портфолио</p>
         <ul className='aboutMe__portfolio-list'>
-          <a className='aboutMe__portfolio-link' href='#'>
+          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/how-to-learn' target='blank'>
             <li className='aboutMe__portfolio-item'>
-            Статичный сайт
+              Статичный сайт
             <div className='aboutMe__portfolio-arrow'></div>
             </li>
           </a>
-          <a className='aboutMe__portfolio-link' href='#'>
+          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/russian-travel' target='blank'>
             <li className='aboutMe__portfolio-item'>
-            Адаптивный сайт
+              Адаптивный сайт
             <div className='aboutMe__portfolio-arrow'></div>
             </li>
           </a>
-          <a className='aboutMe__portfolio-link' href='#'>
+          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/react-mesto-api-full' target='blank'>
             <li className='aboutMe__portfolio-item'>
-            Одностраничное приложение
+              Одностраничное приложение
             <div className='aboutMe__portfolio-arrow'></div>
             </li>
           </a>

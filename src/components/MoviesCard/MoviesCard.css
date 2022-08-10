@@ -1,27 +1,28 @@
-.moviesCardList__item {
+.moviesCard {
   max-width: 360px;
+  position: relative;
 }
 
-.moviesCardList__item-container {
+.moviesCard__container {
   width: 360px;
   height: 202px;
   border-radius: 6px;
 }
 
-.moviesCardList__item-img {
+.moviesCard__img {
   object-fit: contain;
   object-position: center;
   width: 100%;
 }
 
-.moviesCardList__item-title {
+.moviesCard__title {
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
   margin: 0 0;
 }
 
-.moviesCardList__item-duration {
+.moviesCard__duration {
   font-size: 11px;
   line-height: 10px;
   border-radius: 3px;
@@ -32,40 +33,69 @@
   padding: 4px 3px;
 }
 
-.moviesCardList__item-description {
+.moviesCard__description {
   display: flex;
   justify-content: space-between;
   width: 360px;
   padding-top: 14px;
 }
 
+.moviesCard__save-btn {
+  border: none;
+  background-color: #313131;
+  color: inherit;
+  font-size: 10px;
+  line-height: 9px;
+  width: 72px;
+  border-radius: 30px;
+  padding: 6px 7px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.moviesCard__tick {
+  width: 21px;
+  height: 21px;
+  border-radius: 50px;
+  background-color: #EE3465;
+  background-image: url('../../images/check-sign.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: none;
+}
+
 @media(max-width: 1190px) {
-  .moviesCardList__item-container {
+  .moviesCard__container {
     width: 339px;
     height: 190px;
   }
-  .moviesCardList__item {
+  .moviesCard {
     max-width: 339px;
   }
-  .moviesCardList__item-description {
+  .moviesCard__description {
     width: 339px;
     padding-top: 25px;
   }
 }
 
 @media(max-width: 767px) {
-  .moviesCardList__item-container {
+  .moviesCard__container {
     width: 300px;
     height: 168px;
   }
-  .moviesCardList__item {
+  .moviesCard {
     max-width: 300px;
   }
-  .moviesCardList__item-description {
+  .moviesCard__description {
     width: 300px;
     padding-top: 16px;
   }
-  .moviesCardList__item-title {
+  .moviesCard__title {
     font-size: 12px;
     line-height: 15px;
   }

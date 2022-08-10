@@ -7,9 +7,15 @@ export default function Footer() {
       <div className='footer__social'>
         <p className='footer__copyright'>&copy;{new Date().getFullYear()}</p>
         <ul className='footer__source-list'>
-          <li className='footer__source-item'><a className='footer__source-link' href='#'>Яндекс.Практикум</a></li>
-          <li className='footer__source-item'><a className='footer__source-link' href='#'>Github</a></li>
-          <li className='footer__source-item'><a className='footer__source-link' href='#'>Facebook</a></li>
+          <li className='footer__source-item'>
+            <a className='footer__source-link' href='https://practicum.yandex.ru/' target='blank'>Яндекс.Практикум</a>
+          </li>
+          <li className='footer__source-item'>
+            <a className='footer__source-link' href='https://github.com' target='blank'>Github</a>
+          </li>
+          <li className='footer__source-item'>
+            <a className='footer__source-link' href='https://facebook.com' target='blank'>Facebook</a>
+          </li>
         </ul>
       </div>
 
