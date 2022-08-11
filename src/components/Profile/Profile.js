@@ -1,4 +1,5 @@
 import { React, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Profile(props) {
 
@@ -49,7 +50,7 @@ export default function Profile(props) {
         </form>
         <div className={`profile__buttons ${active ? 'profile__buttons_hidden' : ''}`}>
           <button className='profile__edit-btn' type='button' onClick={editProfile}>Редактировать</button>
-          <p className='profile__exit'>Выйти из аккаунта</p>
+          <Link to='/movies' className='profile__exit'>Выйти из аккаунта</Link>
         </div>
       </main>
     </div>
