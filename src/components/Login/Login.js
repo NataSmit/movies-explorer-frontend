@@ -1,5 +1,6 @@
 import React from 'react';
 import SubmitButton from '../SubmitButton/SubmitButton';
+import { Link } from 'react-router-dom';
 
 export default function Login(props) {
   return (
@@ -12,9 +13,9 @@ export default function Login(props) {
           <input className='register__input' type='email'></input>
           <label className='register__lable'>Пароль</label>
           <input className='register__input' type='password'></input>
-          <span className='register__errorMessage'></span>
+          <span className='register__errorMessage register__errorMessage_modified'>test</span>
           <SubmitButton name={'Войти'}/>
-          <span className='register__link'>Ещё не зарегистрированы? <span className='register__link_modifyed'>Регистрация</span></span>
+          <Link to='/signup' className='register__link'>Ещё не зарегистрированы? <span className='register__link_modifyed'>Регистрация</span></Link>
         </form>
       </main>
     </div>

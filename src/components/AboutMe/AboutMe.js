@@ -14,7 +14,7 @@ export default function AboutMe(props) {
           <p className='aboutMe__subtitle'>Фронтенд-разработчик, 30 лет</p>
           <p className='aboutMe__details'>
             Я живу в Воронеже, закончила факультет иностранных языков ВГПУ. Работала в службе поддержки 1-го уровня с 
-            иностранными клиентами, решила посмотреть на процесс с другой стороны, поэтому недавно начала кодить. 
+            иностранными клиентами, решила посмотреть на процесс с другой стороны, поэтому недавно начала кодить.  
           </p>
           <ul className='aboutMe__social-list'>
             <li className='aboutMe__social-item'><a className='aboutMe__social-link' href='#'>Facebook</a></li>
@@ -43,7 +43,7 @@ export default function AboutMe(props) {
             </li>
           </a>
           <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/react-mesto-api-full' target='blank'>
-            <li className='aboutMe__portfolio-item'>
+            <li className='aboutMe__portfolio-item aboutMe__portfolio-item-no-border'>
               Одностраничное приложение
             <div className='aboutMe__portfolio-arrow'></div>
             </li>

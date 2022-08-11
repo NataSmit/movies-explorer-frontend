@@ -1,7 +1,7 @@
 .aboutMe__container {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 110px 0 125px;
+  padding: 110px 0 115px;
 }
 
 .aboutMe__title {
@@ -89,10 +89,14 @@
 }
 
 .aboutMe__portfolio-item {
-  padding: 20px 0 19px;
+  padding: 20px 0 9px;
   border-bottom: 1px solid #424242;
   display: flex;
   justify-content: space-between;
+}
+
+.aboutMe__portfolio-item-no-border {
+  border-bottom: none;
 }
 
 .aboutMe__portfolio-arrow {
@@ -118,7 +122,7 @@
 @media(max-width: 1190px) {
   .aboutMe__container {
     max-width: 668px;
-    padding: 90px 0;
+    padding: 90px 0 70px;
   }
   
   .aboutMe__title {
@@ -146,6 +150,9 @@
   .aboutMe__portfolio-link {
     font-size: 28px;
     line-height: 50px;
+  }
+  .aboutMe__portfolio {
+    padding: 75px 0 0px;
   }
 }
 

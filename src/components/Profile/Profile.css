@@ -9,7 +9,7 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
-  margin: 0 0 123px 0;
+  margin: 0 0 108px 0;
 }
 
 .profile__lable {
@@ -35,8 +35,12 @@
 .profile__input-container {
   display: flex;
   justify-content: space-between;
-  padding: 17px 0 16px;
+  padding: 17px 0 14px;
   border-bottom: 1px solid #424242;
+}
+
+.profile__input-container_type_no-border {
+  border-bottom: none;
 }
 
 .profile__input-container:last-of-type {
@@ -127,7 +131,7 @@
 }
 
 .profile__submit-container {
-  margin-top: 223px;
+  margin-top: 200px;
 }
 
 .profile__errorMessage_visible {
@@ -139,10 +143,10 @@
     padding: 236px 0 269px;
   }
   .profile__title {
-    margin: 0 0 96px 0;
+    margin: 0 0 80px 0;
   }
   .profile__submit-container {
-    margin-top: 210px;
+    margin-top: 195px;
   }
 }
 

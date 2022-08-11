@@ -98,7 +98,7 @@
 }
 
 .header__registration-btn {
-  margin-right: 30px;
+  margin-right: 25px;
   background-color: transparent;
   border: none;
   color: #FFFFFF;
@@ -145,7 +145,7 @@
     display: none;
   }
   .header__container {
-    max-width: 668px;
+    max-width: 708px;
   }
   .header__container_small {
     max-width: 396px;

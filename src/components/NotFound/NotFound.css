@@ -25,6 +25,7 @@
   text-align: center;
   color: #4285F4;
   display: block;
+  text-decoration: none;
 }
 
 @media(max-width: 1200px) {

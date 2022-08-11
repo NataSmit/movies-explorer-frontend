@@ -20,6 +20,7 @@
   font-size: 13px;
   line-height: 16px;
   margin: 0 0;
+  max-width: 250px;
 }
 
 .moviesCard__duration {
@@ -30,14 +31,16 @@
   max-width: 52px;
   background-color: #2F2F2F;
   text-align: center;
-  padding: 4px 3px;
+  padding: 4px 6px;
+  align-self: center;
 }
 
 .moviesCard__description {
   display: flex;
   justify-content: space-between;
   width: 360px;
-  padding-top: 14px;
+  padding: 14px 12px 0;
+  box-sizing: border-box;
 }
 
 .moviesCard__save-btn {
@@ -79,7 +82,7 @@
   }
   .moviesCard__description {
     width: 339px;
-    padding-top: 25px;
+    padding: 25px 0 0;
   }
 }
 

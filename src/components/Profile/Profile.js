@@ -38,7 +38,7 @@ export default function Profile(props) {
             <label htmlFor='name' className='profile__lable'>Имя</label>
             <input onChange={changeName} className='profile__input' id='name' value={name} disabled ref={nameInput}/>
           </div>
-          <div className='profile__input-container'>
+          <div className='profile__input-container profile__input-container_type_no-border'>
             <label htmlFor='email' className='profile__lable'>E-mail</label>
             <input onChange={changeEmail} className='profile__input' id='email' value={email} disabled ref={emailInput}/>
           </div>

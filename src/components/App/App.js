@@ -49,15 +49,15 @@ function App() {
             <Movies>
               <Header loggedIn={loggedIn}/>
               <SearchForm />
-              <MoviesCardList />
               <Preloader />
+              <MoviesCardList />
               <Footer />
             </Movies>
           </Route>
           <Route path='/saved-movies'>
             <SavedMovies>
               <Header loggedIn={loggedIn}/>
-              <SearchForm />
+              <SearchForm saved={saved} />
               <MoviesCardList saved={saved} />
               <Preloader />
               <Footer />

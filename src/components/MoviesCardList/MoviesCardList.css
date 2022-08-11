@@ -6,7 +6,7 @@
   max-width: 1140px;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 30px;
-  row-gap: 60px;
+  row-gap: 59px;
 }
 
 .moviesCardList {
@@ -50,6 +50,10 @@
     grid-template-columns: repeat(2, 339px);
     row-gap: 47px;
   }
+  .moviesCardList {
+    padding: 82px 0 0;
+  }
+  
 }
 
 @media(max-width: 767px) {
