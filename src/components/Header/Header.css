@@ -74,7 +74,7 @@
 
 .header__list-item_active {
   border-bottom: 2px solid white;
- }
+}
 
 .header__buttons {
   display: block;
@@ -91,6 +91,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 18px 0;
+  box-sizing: border-box;
 }
 
 .header__container_small {
@@ -128,7 +129,6 @@
   cursor: pointer;
   opacity: 0.7;
 }
-
 
 .header__burger {
   display: none;
@@ -189,7 +189,8 @@
 
 @media(max-width: 767px) {
   .header__container {
-    max-width: 284px;
+    max-width: 292px;
+    padding-right: 10px;
   }
   .header__container_small {
     max-width: 260px;
@@ -204,5 +205,18 @@
     font-size: 10px;
     line-height: 160%;
     margin-right: 14px;
+  }
+  .header__burger {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header__burger-span {
+    height: 2px;
+    top: 9px;
+  }
+  .header__burger::before,
+  .header__burger::after {
+    height: 2px; 
   }
 }

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 export default function Menu({isMenuOpen, closeMenu}) {
   
@@ -8,9 +9,15 @@ export default function Menu({isMenuOpen, closeMenu}) {
       <nav className='menu__container'>
       <button className='menu__close-btn' type='button' onClick={() => closeMenu()}></button>
         <ul className='menu__list'>
-          <li className='menu__list-item'>Главная</li>
-          <li className='menu__list-item'>Фильмы</li>
-          <li className='menu__list-item'>Сохранённые фильмы</li>
+          <li className='menu__list-item'>
+            <Link to='/' className='menu__list-link'>Главная</Link>
+          </li>
+          <li className='menu__list-item'>
+            <NavLink to='/movies' activeClassName='menu__list-item_active' className='menu__list-link'>Фильмы</NavLink>
+          </li>
+          <li className='menu__list-item'>
+            <NavLink to='/saved-movies' activeClassName='menu__list-item_active' className='menu__list-link'>Сохранённые фильмы</NavLink>
+          </li>
         </ul>
         <div className='menu__account-container'>
           <button className='menu__account' type='button'>Аккаунт</button>

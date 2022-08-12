@@ -42,7 +42,7 @@ export default function Header({loggedIn, minimal}) {
           </ul>
         </nav>
         <div className='header__account-container'>
-        <div className={`header__account ${loggedIn ? 'header__account_visible' : ''}`} type='button'>
+        <div className={`header__account ${loggedIn ? 'header__account_visible' : ''}`}>
           <NavLink to='/profile' className='header__list-link' activeClassName='header__list-item_active'>
             Аккаунт
           </NavLink>

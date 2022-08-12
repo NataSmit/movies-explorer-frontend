@@ -37,6 +37,10 @@
   color: #FFFFFF;
 }
 
+.register__input:invalid {
+  border: 1px solid red;
+}
+
 .register__link {
   font-size: 14px;
   line-height: 17px;
@@ -81,6 +85,7 @@
   }
   .register__title {
     margin: 0 0 80px 0;
+    text-align: center;
   }
   .register__body {
     max-width: 260px;

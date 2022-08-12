@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Techs(props) {
   return (
-    <div className='techs'>
+    <section className='techs'>
       <div className='techs__container'>
         {props.children}
         <div className='techs__body'>
@@ -21,6 +21,6 @@ export default function Techs(props) {
           </ul>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

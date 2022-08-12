@@ -41,13 +41,27 @@
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #FFFFFF;
   margin: 0 0 28px 0;
   font-family: inherit;
+  transition: opacity .3s;
+}
+
+.menu__list-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.menu__list-item_active {
+  border-bottom: 2px solid white;
 }
 
 .menu__list-item:last-child {
   margin: 0;
+}
+
+.menu__list-item:hover, .menu__account:hover, .menu__close-btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .menu__account {
@@ -59,6 +73,7 @@
   border: none;
   background-color: transparent;
   color: white;
+  transition: opacity .3s;
 }
 
 .menu__account::after {
@@ -84,6 +99,7 @@
   right: 30px;
   border: none;
   background-color: transparent;
+  transition: opacity .3s;
 }
 
 .menu__close-btn::before, .menu__close-btn::after {

@@ -22,6 +22,7 @@
   line-height: 24px;
   max-width: 550px;
   margin: 0 0 23px 0;
+  letter-spacing: -0.04em;
 }
 
 .aboutProject__details {

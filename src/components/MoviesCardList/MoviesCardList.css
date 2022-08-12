@@ -61,13 +61,17 @@
     padding: 0 0 12px;
     max-width: 300px;
     grid-template-columns: 300px;
-    row-gap: 39px;
+    row-gap: 35px;
   }
 
   .moviesCardList {
-    padding: 40px 0 0;
+    padding: 50px 0 0;
   }
   .moviesCardList__more-btn {
     width: 240px;
+  }
+
+  .moviesCardList__more {
+    padding: 50px 0 80px;
   }
 }

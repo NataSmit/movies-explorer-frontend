@@ -6,7 +6,7 @@ import Avatar from '../../images/ava.PNG'
 
 export default function AboutMe(props) {
   return (
-    <div className='aboutMe__container'>
+    <section className='aboutMe__container'>
       {props.children}
       <div className='aboutMe__body'>
         <div className='aboutMe__info'>
@@ -17,7 +17,9 @@ export default function AboutMe(props) {
             иностранными клиентами, решила посмотреть на процесс с другой стороны, поэтому недавно начала кодить.  
           </p>
           <ul className='aboutMe__social-list'>
-            <li className='aboutMe__social-item'><a className='aboutMe__social-link' href='#'>Facebook</a></li>
+            <li className='aboutMe__social-item'>
+              <a className='aboutMe__social-link' href='https://vk.com/id147202669' target='blank'>VK</a>
+            </li>
             <li className='aboutMe__social-item'>
               <a className='aboutMe__social-link' href='https://github.com/NataSmit' target='blank'>Github</a>
             </li>
@@ -50,6 +52,6 @@ export default function AboutMe(props) {
           </a>
         </ul>
       </div>
-    </div>
+    </section>
   )
 }

@@ -45,8 +45,7 @@ export default function Profile(props) {
           <div className='profile__submit-container'>
             <span className={`profile__errorMessage ${disabled ? 'profile__errorMessage_visible' : ''}`}>При обновлении профиля произошла ошибка.</span>
             <button className={`profile__submit-btn ${disabled ? 'profile__submit-btn_disabled' : ''} ${active ? 'profile__submit-btn_visible' : ''}`}>Сохранить</button>
-          </div>
-          
+          </div>     
         </form>
         <div className={`profile__buttons ${active ? 'profile__buttons_hidden' : ''}`}>
           <button className='profile__edit-btn' type='button' onClick={editProfile}>Редактировать</button>

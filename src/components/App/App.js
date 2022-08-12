@@ -57,7 +57,7 @@ function App() {
           <Route path='/saved-movies'>
             <SavedMovies>
               <Header loggedIn={loggedIn}/>
-              <SearchForm saved={saved} />
+              <SearchForm />
               <MoviesCardList saved={saved} />
               <Preloader />
               <Footer />

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function AboutProject(props) {
   return (
-    <div className='aboutProject__container'>
+    <section className='aboutProject__container'>
       {props.children}
       <div className='aboutProject__body'>
         <div className='aboutProject__info'>
@@ -24,6 +24,6 @@ export default function AboutProject(props) {
         <p className='aboutProject__app'>Back-end</p>
         <p className='aboutProject__app'>Front-end</p>
       </div>
-    </div>
+    </section>
   )
 }

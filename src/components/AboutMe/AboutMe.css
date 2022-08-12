@@ -9,6 +9,7 @@
   font-size: 50px;
   line-height: 58px;
   margin: 0 0 18px;
+  letter-spacing: -0.04em;
 }
 
 .aboutMe__subtitle {
@@ -93,6 +94,7 @@
   border-bottom: 1px solid #424242;
   display: flex;
   justify-content: space-between;
+  letter-spacing: -0.04em;
 }
 
 .aboutMe__portfolio-item-no-border {
@@ -159,7 +161,7 @@
 @media(max-width: 767px) {
   .aboutMe__container {
     max-width: 292px;
-    padding: 70px 0;
+    padding: 70px 0 50px;
   }
   
   .aboutMe__title {
@@ -211,6 +213,10 @@
   }
   .aboutMe__portfolio {
     padding: 70px 0 0;
+  }
+
+  .aboutMe__portfolio-item {
+    padding: 20px 0;
   }
   
 }
