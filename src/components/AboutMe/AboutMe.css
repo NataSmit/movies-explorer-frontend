@@ -1,0 +1,222 @@
+.aboutMe__container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 110px 0 115px;
+}
+
+.aboutMe__title {
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  margin: 0 0 18px;
+  letter-spacing: -0.04em;
+}
+
+.aboutMe__subtitle {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  margin: 0 0 26px 0;
+  max-width: 600px;
+}
+
+.aboutMe__details {
+  font-size: 14px;
+  line-height: 22px;
+  max-width: 600px;
+  margin: 0 0 99px;
+}
+
+.aboutMe__social-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.aboutMe__social-item {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  transition: opacity .3s;
+}
+
+.aboutMe__social-link {
+  text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.aboutMe__photo-container {
+  flex: 0 0 270px;
+  height: 327px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.aboutMe__photo-item {
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  width: 100%;
+}
+
+.aboutMe__body {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 66px;
+}
+
+.aboutMe__portfolio-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.aboutMe__portfolio-link {
+  text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  transition: opacity .3s;
+}
+
+.aboutMe__portfolio-link:hover, .aboutMe__social-item:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.aboutMe__portfolio-item {
+  padding: 20px 0 9px;
+  border-bottom: 1px solid #424242;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: -0.04em;
+}
+
+.aboutMe__portfolio-item-no-border {
+  border-bottom: none;
+}
+
+.aboutMe__portfolio-arrow {
+  background-image: url('../../images/landing-arrow.svg');
+  width: 27px;
+  height: 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+}
+
+.aboutMe__portfolio-title {
+  font-size: 18px;
+  line-height: 20px;
+  color: #8B8B8B;
+  margin: 0 0 30px;
+}
+
+.aboutMe__portfolio {
+  padding: 100px 0 0px;
+}
+
+@media(max-width: 1190px) {
+  .aboutMe__container {
+    max-width: 668px;
+    padding: 90px 0 70px;
+  }
+  
+  .aboutMe__title {
+    font-size: 40px;
+    line-height: 40px;
+    margin: 0 0 16px;
+  }
+  
+  .aboutMe__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0 0 20px 0;
+    max-width: 348px;
+  }
+  .aboutMe__details {
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 348px;
+    margin: 0 0 87px;
+  }
+  .aboutMe__photo-container {
+    flex: 0 0 255px;
+    height: 307px;
+  }
+  .aboutMe__portfolio-link {
+    font-size: 28px;
+    line-height: 50px;
+  }
+  .aboutMe__portfolio {
+    padding: 75px 0 0px;
+  }
+}
+
+@media(max-width: 767px) {
+  .aboutMe__container {
+    max-width: 292px;
+    padding: 70px 0 50px;
+  }
+  
+  .aboutMe__title {
+    font-size: 30px;
+    line-height: 36px;
+    margin: 40px 0 20px;
+  }
+  
+  .aboutMe__subtitle {
+    font-size: 11px;
+    line-height: 16px;
+    max-width: 292px;
+  }
+  .aboutMe__details {
+    font-size: 11px;
+    line-height: 16px;
+    max-width: 292px;
+    margin: 0 0 40px;
+  }
+  .aboutMe__photo-container {
+    flex: 0 0 292px;
+    height: 352px;
+    order: 1;
+  }
+  .aboutMe__info{
+    order: 2;
+  }
+  .aboutMe__portfolio-link {
+    font-size: 28px;
+    line-height: 50px;
+  }
+  .aboutMe__body {
+    flex-direction: column;
+    padding-top: 60px;
+    align-items: center;
+  }
+  .aboutMe__portfolio-title {
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+  .aboutMe__portfolio-link {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .aboutMe__portfolio-arrow {
+    width: 12px;
+    height: 20px;
+    background-size: contain;
+  }
+  .aboutMe__portfolio {
+    padding: 70px 0 0;
+  }
+
+  .aboutMe__portfolio-item {
+    padding: 20px 0;
+  }
+  
+}

@@ -1,0 +1,106 @@
+.moviesCard {
+  max-width: 360px;
+  position: relative;
+}
+
+.moviesCard__container {
+  width: 360px;
+  height: 202px;
+  border-radius: 6px;
+}
+
+.moviesCard__img {
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+}
+
+.moviesCard__title {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0 0;
+  max-width: 250px;
+}
+
+.moviesCard__duration {
+  font-size: 11px;
+  line-height: 10px;
+  border-radius: 3px;
+  color:#8B8B8B;
+  max-width: 52px;
+  background-color: #2F2F2F;
+  text-align: center;
+  padding: 4px 6px;
+  align-self: center;
+}
+
+.moviesCard__description {
+  display: flex;
+  justify-content: space-between;
+  width: 360px;
+  padding: 14px 12px 0;
+  box-sizing: border-box;
+}
+
+.moviesCard__save-btn {
+  border: none;
+  background-color: #313131;
+  color: inherit;
+  font-size: 10px;
+  line-height: 9px;
+  width: 72px;
+  border-radius: 30px;
+  padding: 6px 7px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.moviesCard__tick {
+  width: 21px;
+  height: 21px;
+  border-radius: 50px;
+  background-color: #EE3465;
+  background-image: url('../../images/check-sign.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: none;
+}
+
+@media(max-width: 1190px) {
+  .moviesCard__container {
+    width: 339px;
+    height: 190px;
+  }
+  .moviesCard {
+    max-width: 339px;
+  }
+  .moviesCard__description {
+    width: 339px;
+    padding: 25px 0 0;
+  }
+}
+
+@media(max-width: 767px) {
+  .moviesCard__container {
+    width: 300px;
+    height: 168px;
+  }
+  .moviesCard {
+    max-width: 300px;
+  }
+  .moviesCard__description {
+    width: 300px;
+    padding-top: 16px;
+  }
+  .moviesCard__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+}
