@@ -1,14 +1,12 @@
-import React from 'react'
-import Photo from '../../images/vitaliy.png'
-import PhotoTest from '../../images/imgForTesting.jpg'
-import Avatar from '../../images/ava.PNG'
+import React from 'react';
+import Avatar from '../../images/ava.PNG';
 
 
 export default function AboutMe(props) {
   return (
     <section className='aboutMe__container'>
       {props.children}
-      <div className='aboutMe__body'>
+      <main className='aboutMe__body'>
         <div className='aboutMe__info'>
           <h2 className='aboutMe__title'>Наталья</h2>
           <p className='aboutMe__subtitle'>Фронтенд-разработчик, 30 лет</p>
@@ -28,30 +26,30 @@ export default function AboutMe(props) {
         <div className='aboutMe__photo-container'>
           <img className='aboutMe__photo-item' src={Avatar} alt='Фото студента'/>
         </div>
-      </div>
-      <div className='aboutMe__portfolio'>
+      </main>
+      <main className='aboutMe__portfolio'>
         <p className='aboutMe__portfolio-title'>Портфолио</p>
         <ul className='aboutMe__portfolio-list'>
-          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/how-to-learn' target='blank'>
-            <li className='aboutMe__portfolio-item'>
-              Статичный сайт
+          <li className='aboutMe__portfolio-item'>
+            <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/how-to-learn' target='blank'>
+            Статичный сайт
+            </a>
             <div className='aboutMe__portfolio-arrow'></div>
-            </li>
-          </a>
-          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/russian-travel' target='blank'>
-            <li className='aboutMe__portfolio-item'>
-              Адаптивный сайт
+          </li>
+          <li className='aboutMe__portfolio-item'>
+            <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/russian-travel' target='blank'>
+            Адаптивный сайт
+            </a>
             <div className='aboutMe__portfolio-arrow'></div>
-            </li>
-          </a>
-          <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/react-mesto-api-full' target='blank'>
-            <li className='aboutMe__portfolio-item aboutMe__portfolio-item-no-border'>
-              Одностраничное приложение
+          </li>
+          <li className='aboutMe__portfolio-item aboutMe__portfolio-item-no-border'>
+            <a className='aboutMe__portfolio-link' href='https://github.com/NataSmit/react-mesto-api-full' target='blank'>
+            Одностраничное приложение
+            </a>
             <div className='aboutMe__portfolio-arrow'></div>
-            </li>
-          </a>
+          </li>
         </ul>
-      </div>
+      </main>
     </section>
   )
 }

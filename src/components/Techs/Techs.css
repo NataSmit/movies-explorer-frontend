@@ -76,6 +76,7 @@
 @media(max-width: 767px) {
   .techs {
     padding: 70px 0;
+    background-color: #202020;
   }
   .techs__container {
     max-width: 284px;

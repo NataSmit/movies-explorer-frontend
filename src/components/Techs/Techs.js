@@ -5,7 +5,7 @@ export default function Techs(props) {
     <section className='techs'>
       <div className='techs__container'>
         {props.children}
-        <div className='techs__body'>
+        <main className='techs__body'>
           <h2 className='techs__title'>7 технологий</h2>
           <p className='techs__subtitle'>
             На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.
@@ -19,7 +19,7 @@ export default function Techs(props) {
             <li className='techs__list-item'>Express.js</li>
             <li className='techs__list-item'>mongoDB</li>
           </ul>
-        </div>
+        </main>
       </div>
     </section>
   )

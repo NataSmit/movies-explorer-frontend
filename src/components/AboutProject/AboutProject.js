@@ -4,7 +4,7 @@ export default function AboutProject(props) {
   return (
     <section className='aboutProject__container'>
       {props.children}
-      <div className='aboutProject__body'>
+      <main className='aboutProject__body'>
         <div className='aboutProject__info'>
           <p className='aboutProject__fact'>Дипломный проект включал 5 этапов</p>
           <p className='aboutProject__details'>Составление плана, работу над бэкендом, вёрстку, добавление 
@@ -17,13 +17,13 @@ export default function AboutProject(props) {
             которые нужно было соблюдать, чтобы успешно защититься.
           </p>
         </div>
-      </div>
-      <div className='aboutProject__timetable'>
+      </main>
+      <main className='aboutProject__timetable'>
         <div className='aboutProject__term'>1 неделя</div>
         <div className='aboutProject__term aboutProject__term_type_front'>4 недели</div>
         <p className='aboutProject__app'>Back-end</p>
         <p className='aboutProject__app'>Front-end</p>
-      </div>
+      </main>
     </section>
   )
 }
