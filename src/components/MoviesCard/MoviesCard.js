@@ -1,10 +1,14 @@
 import React from 'react'
 
-export default function MoviesCard({picture, title, duration}) {
+export default function MoviesCard({picture, title, duration, saveFilm, film}) {
+
+  function handleSaveClick() {
+    saveFilm(film);
+  }
 
   return (
     <li className='moviesCard'>
-      <button type='button' className='moviesCard__save-btn'>Сохранить</button>
+      <button type='button' className='moviesCard__save-btn' onClick={handleSaveClick}>Сохранить</button>
       <div className='moviesCard__tick'></div>
       <div className='moviesCard__container'>
         <img className='moviesCard__img' src={picture} alt='film' />
