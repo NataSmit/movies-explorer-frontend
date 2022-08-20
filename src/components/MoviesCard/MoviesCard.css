@@ -3,6 +3,14 @@
   position: relative;
 }
 
+.moviesCard:hover {
+  cursor: pointer;
+}
+.moviesCard:hover > .moviesCard__delete-btn {
+  cursor: pointer;
+  display: block;
+}
+
 .moviesCard__container {
   width: 360px;
   height: 202px;
@@ -58,6 +66,11 @@
   top: 14px;
   right: 14px;
   transition: opacity .3s;
+  display: block;
+}
+
+.moviesCard__save-btn_hidden {
+  display: none;
 }
 
 .moviesCard__save-btn:hover {
@@ -77,6 +90,30 @@
   top: 14px;
   right: 14px;
   display: none;
+}
+
+.moviesCard__tick_visible {
+  display: block;
+}
+
+.moviesCard__delete-btn {
+  width: 21px;
+  height: 21px;
+  border-radius: 50px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background-color: #313131;
+  border: none;
+  background-image: url('../../images/card-delete-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  display: none;
+  transition: opacity .3s;
+}
+
+.moviesCard__delete-btn:hover {
+  opacity: 0.7;
 }
 
 @media(max-width: 1190px) {

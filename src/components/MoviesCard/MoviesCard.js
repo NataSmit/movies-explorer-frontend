@@ -1,15 +1,34 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
 
-export default function MoviesCard({picture, title, duration, saveFilm, film}) {
+export default function MoviesCard({picture, title, duration, saveFilm, film, saved, deleteFilm}) {
+   
+  const [addedToFafourites, setAddedToFafourites] = useState(false)
 
   function handleSaveClick() {
     saveFilm(film);
+    setAddedToFafourites(true);
+  }
+
+  function handleDeleteClick() {
+    deleteFilm(film._id)
+    console.log(film._id)
+    console.log(film)
   }
 
   return (
     <li className='moviesCard'>
-      <button type='button' className='moviesCard__save-btn' onClick={handleSaveClick}>Сохранить</button>
-      <div className='moviesCard__tick'></div>
+      {
+        saved 
+         ? <button className='moviesCard__delete-btn' onClick={handleDeleteClick}></button> 
+         : 
+         <>
+          <button type='button' className={`${addedToFafourites ? 'moviesCard__save-btn_hidden' : 'moviesCard__save-btn'}`} 
+          onClick={handleSaveClick}>Сохранить</button>
+          <div className={`moviesCard__tick ${addedToFafourites ? 'moviesCard__tick_visible' : ''}`}></div>
+        </>
+      }
+      
       <div className='moviesCard__container'>
         <img className='moviesCard__img' src={picture} alt='film' />
       </div>

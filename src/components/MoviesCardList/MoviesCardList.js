@@ -1,4 +1,5 @@
 import React from 'react';
+import {useState} from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard'
 import film1 from '../../images/films/pic__COLOR_pic.png';
 import film2 from '../../images/films/pic__COLOR_pic-4.png';
@@ -14,18 +15,20 @@ import film11 from '../../images/films/pic__COLOR_pic-7.png';
 import film12 from '../../images/films/pic__COLOR_pic-11.png';
 
 
-export default function MoviesCardList({saved, filteredMovies, isSearchSuccessful, message, serverError, saveFilm}) {
-
+export default function MoviesCardList({saved, filteredMovies, isSearchSuccessful, message, serverError, 
+  saveFilm, savedMovies, deleteFilm}) {
+  
+  const moviesArray = saved ? savedMovies : filteredMovies
   
   return (
     <div className='moviesCardList'>
       <ul className='moviesCardList__list'>
        
-       {isSearchSuccessful ? '' : <li className='moviesCardList_type_message'>{message}</li>}
+       {isSearchSuccessful  ? '' : <li className='moviesCardList_type_message'>{message}</li>}
        { 
-       filteredMovies.map((film) => (
-       <MoviesCard picture={`https://api.nomoreparties.co${film.image.url}`} title={film.nameRU} duration={film.duration} 
-       key={film.id} saveFilm={saveFilm} film={film}/>)) 
+       moviesArray.map((film) => (
+       <MoviesCard picture={`${saved ? film.image : `https://api.nomoreparties.co${film.image.url}`} `} title={film.nameRU} duration={film.duration} 
+       key={film.id} saveFilm={saveFilm} film={film} saved={saved} deleteFilm={deleteFilm} />)) 
        }
       </ul>
       <div className='moviesCardList__more'>

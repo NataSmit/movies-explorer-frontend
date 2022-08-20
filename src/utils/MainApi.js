@@ -38,6 +38,15 @@ class MainApi {
     })
     .then((res) => this._checkResponse(res))
   }
+
+  deleteFilm(id) {
+    return fetch(`${this._baseUrl}/movies/${id}`, {
+      method: 'DELETE',
+      headers:this._headers,
+      
+    })
+    .then((res) => this._checkResponse(res))
+  }
   
 }
 

@@ -29,7 +29,7 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [initialMovies, setInitialMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSearchSuccessful, setIsSearchSuccessful] = useState(true);
+  const [isSearchSuccessful, setIsSearchSuccessful] = useState(undefined);
   const [message, setMessage] = useState('');
   const [serverError, setServerError] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -58,6 +58,7 @@ function App() {
   }
 
   function checkIsSearchSuccessful() {
+   
     if (filteredMovies.length === 0) {
       setIsSearchSuccessful(false);
       setMessage('Ничего не найдено');
@@ -107,11 +108,32 @@ function App() {
     .catch((err) => console.log(err))
   }
 
-  
+  function deleteFilm(id) {
+    mainApi
+    .deleteFilm(id)
+    .then((res) => {
+      setSavedMovies((state) => state.filter((film) => film._id !== id))
+    })
+    .catch((err) => console.log(err))
+  }
+
+ //function getSavedFilms() {
+ //  mainApi
+ //  .getFilms()
+ //  .then((savedMovies) => setSavedMovies(savedMovies))
+ //  .catch((err) => console.log(err))
+ //}
+
+  useEffect(() => {
+    mainApi
+    .getFilms()
+    .then((savedMovies) => setSavedMovies(savedMovies))
+    .catch((err) => console.log(err))
+  }, [])
 
   console.log('savedMovies:', savedMovies)
   console.log('filteredMovies:', filteredMovies)
-  console.log('initialMovies:', initialMovies)
+  console.log('isSearchSuccessful:', isSearchSuccessful)
   
 
   return (
@@ -148,7 +170,7 @@ function App() {
             <SavedMovies>
               <Header loggedIn={loggedIn}/>
               <SearchForm />
-              <MoviesCardList saved={saved} />
+              <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm}/>
               <Preloader />
               <Footer />
             </SavedMovies>
