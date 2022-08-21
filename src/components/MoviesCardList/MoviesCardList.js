@@ -16,7 +16,7 @@ import film12 from '../../images/films/pic__COLOR_pic-11.png';
 
 
 export default function MoviesCardList({saved, filteredMovies, isSearchSuccessful, message, serverError, 
-  saveFilm, savedMovies, deleteFilm}) {
+  saveFilm, savedMovies, deleteFilm, handleMoreBtnClick, moreBtnState}) {
   
   const moviesArray = saved ? savedMovies : filteredMovies
   
@@ -32,7 +32,9 @@ export default function MoviesCardList({saved, filteredMovies, isSearchSuccessfu
        }
       </ul>
       <div className='moviesCardList__more'>
-        <button className={`moviesCardList__more-btn ${saved ? 'moviesCardList__more-btn_hidden' : ''}`}>Ещё</button>
+        {moreBtnState &&
+        <button onClick={handleMoreBtnClick} className={`moviesCardList__more-btn ${saved ? 'moviesCardList__more-btn_hidden' : ''}`}>Ещё</button>
+        }
       </div>
     </div>
   )

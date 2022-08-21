@@ -33,28 +33,50 @@ function App() {
   const [message, setMessage] = useState('');
   const [serverError, setServerError] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
+  const [moviesToDisplay, setMoviesToDisplay] = useState(undefined)
+  const [moreBtnState, setMoreBtnState] = useState(true)
 
- //useEffect(() => {
- //  moviesApi
- //  .getMovies()
- //  .then((moviesArr) => setInitialMovies(moviesArr))
- //  .catch((err) => console.log(err))
- //}, [])
+  function handleWindowWidth() {
+    setTimeout(() => {
+      setWindowInnerWidth(window.innerWidth)
+    }, 2000)
+    
+  }
 
- 
-  //function getInitialMovies() {
-  // moviesApi
-  //  .getMovies()
-  //  .then((moviesArr) => {
-  //    setInitialMovies(moviesArr)
-//
-  //  })
-//
-  //  .catch((err) => console.log(err))
-  //}
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowWidth)
+    return () => window.removeEventListener('resize', handleWindowWidth)
+  }, [windowInnerWidth])
+
+  function defineMoviesQuantity(windowInnerWidth) {
+    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
+    setMoviesToDisplay(12);
+   } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
+    setMoviesToDisplay(8);
+   } else {
+    setMoviesToDisplay(5);
+   }
+
+  }
+
+  useEffect(() => {
+    defineMoviesQuantity(windowInnerWidth)
+  }, [windowInnerWidth, moviesToDisplay])
+
+
 
   function filterMovies(keyWord, serverMovies) {
-    setFilteredMovies(serverMovies.filter((film) => film.nameRU.toLowerCase().includes(keyWord.toLowerCase())))
+    const allFilteredMovies = serverMovies.filter((film) => film.nameRU.toLowerCase().includes(keyWord.toLowerCase()))
+    localStorage.setItem('allFilteredMovies', JSON.stringify(allFilteredMovies))
+    defineMoviesQuantity(windowInnerWidth)
+    setMoreBtnState((allFilteredMovies.length > moviesToDisplay) ? true : false)
+    setFilteredMovies(allFilteredMovies.slice(0, moviesToDisplay))
+  }
+
+  function handleMoreBtnClick() {
+    const allFilteredMovies = JSON.parse(localStorage.allFilteredMovies);
+    
   }
 
   function checkIsSearchSuccessful() {
@@ -82,7 +104,7 @@ function App() {
         .getMovies()
         .then((moviesArr) => {
           filterMovies(keyWord, moviesArr);
-          localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies))
+          
           setInitialMovies(moviesArr);
         })
         .catch((err) => {
@@ -131,10 +153,11 @@ function App() {
     .catch((err) => console.log(err))
   }, [])
 
-  console.log('savedMovies:', savedMovies)
+  console.log('moviesToDisplay:', moviesToDisplay)
   console.log('filteredMovies:', filteredMovies)
   console.log('isSearchSuccessful:', isSearchSuccessful)
-  
+  console.log('windowInnerWidth:', windowInnerWidth)
+  console.log('moreBtnState:', moreBtnState)
 
   return (
     <div className='wrapper'>
@@ -162,7 +185,7 @@ function App() {
               <SearchForm onSearchBtn={searchMovies} filterMovies={filterMovies}/>
               <Preloader isLoading={isLoading}/>
               <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful} message={message}
-              serverError={serverError} saveFilm={saveFilm}/>
+              serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick} moreBtnState={moreBtnState}/>
               <Footer />
             </Movies>
           </Route>
