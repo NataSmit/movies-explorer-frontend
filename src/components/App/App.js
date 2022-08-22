@@ -34,8 +34,9 @@ function App() {
   const [serverError, setServerError] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
-  const [moviesToDisplay, setMoviesToDisplay] = useState(undefined)
+  const [moviesToDisplay, setMoviesToDisplay] = useState(12)
   const [moreBtnState, setMoreBtnState] = useState(true)
+  const [moviesToDisplayAfterMoreBtnClick, setMoviesToDisplayAfterMoreBtnClick] = useState(moviesToDisplay)
 
   function handleWindowWidth() {
     setTimeout(() => {
@@ -75,9 +76,26 @@ function App() {
   }
 
   function handleMoreBtnClick() {
-    const allFilteredMovies = JSON.parse(localStorage.allFilteredMovies);
-    
+    console.log('clicked')
+    const allFilteredMovies = localStorage.getItem('allFilteredMovies') ? JSON.parse(localStorage.getItem('allFilteredMovies')) : [];
+    console.log('allFilteredMovies moreBtn', allFilteredMovies)
+    addMoreFilms(windowInnerWidth)
+    setFilteredMovies(allFilteredMovies.slice(0, moviesToDisplayAfterMoreBtnClick))
+    setMoreBtnState((allFilteredMovies.length > moviesToDisplayAfterMoreBtnClick) ? true : false)
   }
+
+  
+  console.log('moviesToDisplayAfterMoreBtnClick', moviesToDisplayAfterMoreBtnClick)
+
+  function addMoreFilms(windowInnerWidth) {
+    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
+      setMoviesToDisplayAfterMoreBtnClick(moviesToDisplayAfterMoreBtnClick + 3);
+     } else {
+      setMoviesToDisplayAfterMoreBtnClick(moviesToDisplayAfterMoreBtnClick + 2);
+     }
+     
+  }
+  
 
   function checkIsSearchSuccessful() {
    
@@ -153,7 +171,7 @@ function App() {
     .catch((err) => console.log(err))
   }, [])
 
-  console.log('moviesToDisplay:', moviesToDisplay)
+  
   console.log('filteredMovies:', filteredMovies)
   console.log('isSearchSuccessful:', isSearchSuccessful)
   console.log('windowInnerWidth:', windowInnerWidth)
