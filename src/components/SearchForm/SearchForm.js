@@ -1,9 +1,9 @@
 import React from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import {useState} from 'react';
-import { useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-export default function SearchForm({onSearchBtn}) {
+
+export default function SearchForm({onSearchBtn, setShortMovie}) {
 
   const [value, setValue] = useState('');
 
@@ -16,7 +16,11 @@ export default function SearchForm({onSearchBtn}) {
     onSearchBtn(value);
   }
 
-
+  useEffect(() => {
+    if (localStorage.keyWord) {
+      setValue(localStorage.getItem('keyWord'))
+    }
+  }, [])
 
   return (
     <div className='searchForm' >
@@ -24,7 +28,7 @@ export default function SearchForm({onSearchBtn}) {
         <input className='searchForm__input' type='text' value={value || ''} onChange={handleChange} placeholder='Фильм' required/>
         <button className='searchForm__button'></button>
       </form>
-      <FilterCheckbox />
+      <FilterCheckbox setShortMovie={setShortMovie} />
     </div>
   )
 }

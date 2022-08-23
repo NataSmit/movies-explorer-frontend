@@ -26,92 +26,86 @@ function App() {
   const loggedIn = true;
   const saved = true;
   const minimal = true;
+  
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [initialMovies, setInitialMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchSuccessful, setIsSearchSuccessful] = useState(undefined);
-  const [message, setMessage] = useState('');
+  
   const [serverError, setServerError] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+
   const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
   const [moviesToDisplay, setMoviesToDisplay] = useState(12)
-  const [moreBtnState, setMoreBtnState] = useState(true)
-  const [moviesToDisplayAfterMoreBtnClick, setMoviesToDisplayAfterMoreBtnClick] = useState(moviesToDisplay)
 
-  function handleWindowWidth() {
-    setTimeout(() => {
-      setWindowInnerWidth(window.innerWidth)
-    }, 2000)
-    
-  }
+  const moreMovies = windowInnerWidth >= 1190 ? 3 : 2
+  const [finalNumberOfMoviesToDisplay, setFinalNumberOfMoviesToDisplay] = useState(moviesToDisplay)
+  const [shortMovie, setShortMovie] = useState(false)
 
-  useEffect(() => {
-    window.addEventListener('resize', handleWindowWidth)
-    return () => window.removeEventListener('resize', handleWindowWidth)
-  }, [windowInnerWidth])
 
-  function defineMoviesQuantity(windowInnerWidth) {
-    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
-    setMoviesToDisplay(12);
-   } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
-    setMoviesToDisplay(8);
-   } else {
-    setMoviesToDisplay(5);
+  console.log('moviesToDisplay:', moviesToDisplay);
+  console.log('finalNumberOfMoviesToDisplay:', finalNumberOfMoviesToDisplay);
+  console.log('shortMovie:', shortMovie)
+
+   function handleWindowWidth() {
+     setTimeout(() => {
+       setWindowInnerWidth(window.innerWidth)
+     }, 2000)
+     
    }
 
+   useEffect(() => {
+     window.addEventListener('resize', handleWindowWidth)
+     return () => window.removeEventListener('resize', handleWindowWidth)
+   }, [])
+
+   useEffect(() => {
+     if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
+       setMoviesToDisplay(12);
+      } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
+       setMoviesToDisplay(8);
+      } else {
+       setMoviesToDisplay(5);
+      }
+   }, [windowInnerWidth, moviesToDisplay])
+
+   function handleMoreBtnClick() {
+    setFinalNumberOfMoviesToDisplay(finalNumberOfMoviesToDisplay + moreMovies)
   }
-
-  useEffect(() => {
-    defineMoviesQuantity(windowInnerWidth)
-  }, [windowInnerWidth, moviesToDisplay])
-
 
 
   function filterMovies(keyWord, serverMovies) {
-    const allFilteredMovies = serverMovies.filter((film) => film.nameRU.toLowerCase().includes(keyWord.toLowerCase()))
-    localStorage.setItem('allFilteredMovies', JSON.stringify(allFilteredMovies))
-    defineMoviesQuantity(windowInnerWidth)
-    setMoreBtnState((allFilteredMovies.length > moviesToDisplay) ? true : false)
-    setFilteredMovies(allFilteredMovies.slice(0, moviesToDisplay))
+    const allFoundMovies = serverMovies.filter((film) => film.nameRU.toLowerCase().includes(keyWord.toLowerCase()))
+    allFoundMovies.filter((film) => film.duration <= 40)
+    checkIsSearchSuccessful(allFoundMovies)
+    localStorage.setItem('allFoundMovies', JSON.stringify(allFoundMovies))
+    localStorage.setItem('keyWord', keyWord)
+    localStorage.setItem('shortMovie', shortMovie)
+    setFilteredMovies(shortMovie ? allFoundMovies.filter((film) => film.duration <= 40) : allFoundMovies)
   }
 
-  function handleMoreBtnClick() {
-    console.log('clicked')
-    const allFilteredMovies = localStorage.getItem('allFilteredMovies') ? JSON.parse(localStorage.getItem('allFilteredMovies')) : [];
-    console.log('allFilteredMovies moreBtn', allFilteredMovies)
-    addMoreFilms(windowInnerWidth)
-    setFilteredMovies(allFilteredMovies.slice(0, moviesToDisplayAfterMoreBtnClick))
-    setMoreBtnState((allFilteredMovies.length > moviesToDisplayAfterMoreBtnClick) ? true : false)
-  }
+  useEffect(() => {
+    if (localStorage.allFoundMovies) {
+      setFilteredMovies(JSON.parse(localStorage.getItem('allFoundMovies')))
+    } else {
+      setFilteredMovies([])
+    }
+    
+  }, [])
 
-  
-  console.log('moviesToDisplayAfterMoreBtnClick', moviesToDisplayAfterMoreBtnClick)
-
-  function addMoreFilms(windowInnerWidth) {
-    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
-      setMoviesToDisplayAfterMoreBtnClick(moviesToDisplayAfterMoreBtnClick + 3);
-     } else {
-      setMoviesToDisplayAfterMoreBtnClick(moviesToDisplayAfterMoreBtnClick + 2);
-     }
-     
-  }
-  
-
-  function checkIsSearchSuccessful() {
+ 
+  function checkIsSearchSuccessful(filmArr) {
    
-    if (filteredMovies.length === 0) {
+    if (filmArr.length === 0) {
       setIsSearchSuccessful(false);
-      setMessage('Ничего не найдено');
     } else {
       setIsSearchSuccessful(true)
     }
   }
 
-  useEffect(() => {
-    checkIsSearchSuccessful()
-  }, [isSearchSuccessful, filteredMovies])
 
   function searchMovies(keyWord) {
+    setFinalNumberOfMoviesToDisplay(moviesToDisplay)
     if (!keyWord) {
       console.log('Нужно ввести ключевое слово');
     }
@@ -122,7 +116,6 @@ function App() {
         .getMovies()
         .then((moviesArr) => {
           filterMovies(keyWord, moviesArr);
-          
           setInitialMovies(moviesArr);
         })
         .catch((err) => {
@@ -132,11 +125,12 @@ function App() {
         })
         .finally (() => {
           setIsLoading(false);
-          checkIsSearchSuccessful()
+          //checkIsSearchSuccessful()
         })
     } else {
       filterMovies(keyWord, initialMovies);
-      checkIsSearchSuccessful()
+
+      //checkIsSearchSuccessful()
     }
     
   }
@@ -175,7 +169,7 @@ function App() {
   console.log('filteredMovies:', filteredMovies)
   console.log('isSearchSuccessful:', isSearchSuccessful)
   console.log('windowInnerWidth:', windowInnerWidth)
-  console.log('moreBtnState:', moreBtnState)
+  
 
   return (
     <div className='wrapper'>
@@ -200,10 +194,11 @@ function App() {
           <Route path='/movies'>
             <Movies>
               <Header loggedIn={loggedIn}/>
-              <SearchForm onSearchBtn={searchMovies} filterMovies={filterMovies}/>
+              <SearchForm onSearchBtn={searchMovies} setShortMovie={setShortMovie} />
               <Preloader isLoading={isLoading}/>
-              <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful} message={message}
-              serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick} moreBtnState={moreBtnState}/>
+              <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful}
+              serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
+              finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay}/>
               <Footer />
             </Movies>
           </Route>

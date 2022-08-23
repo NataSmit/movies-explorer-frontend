@@ -1,10 +1,26 @@
-import React from 'react'
+import React from 'react';
+import { useEffect } from 'react';
+import {useState} from 'react';
 
-export default function FilterCheckbox() {
+export default function FilterCheckbox({setShortMovie}) {
+
+  const [checked, setChecked] = useState(false)
+
+  function handleChange() {
+		setChecked(!checked); 
+    setShortMovie(!checked)
+	}
+	
+  useEffect(() => {
+    if (localStorage.shortMovie) {
+      setChecked(JSON.parse(localStorage.getItem('shortMovie')) )
+    }
+  }, [])
+
   return (
     <div className='filterCheckbox'>
       <div className='filterCheckbox__container'>
-        <input className='filterCheckbox__input' type='checkbox' id='shortFilm'/>
+        <input className='filterCheckbox__input' type='checkbox' id='shortFilm' checked={checked} onChange={handleChange} />
         <label htmlFor='shortFilm' className='filterCheckbox__label'>Короткометражки</label>
       </div>
     </div>
