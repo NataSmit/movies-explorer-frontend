@@ -14,7 +14,8 @@ class MainApi {
   saveFilm(film) {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
-      headers:this._headers,
+      credentials: 'include',
+      headers: this._headers,
       body: JSON.stringify({
         country: film.country,
         director: film.director,
@@ -34,6 +35,7 @@ class MainApi {
 
   getFilms() {
     return fetch(`${this._baseUrl}/movies`, {
+      credentials: 'include',
       headers: this._headers,
     })
     .then((res) => this._checkResponse(res))
@@ -42,10 +44,25 @@ class MainApi {
   deleteFilm(id) {
     return fetch(`${this._baseUrl}/movies/${id}`, {
       method: 'DELETE',
+      credentials: 'include',
       headers:this._headers,
       
     })
     .then((res) => this._checkResponse(res))
+  }
+
+  editProfile(email, name) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: this._headers,
+      body: JSON.stringify({
+        email: email, 
+        name: name
+      })
+    })
+    .then((res) => this._checkResponse(res))
+      
   }
   
 }

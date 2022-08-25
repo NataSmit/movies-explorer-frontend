@@ -1,17 +1,21 @@
-import { React, useState, useRef } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
+import {useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-export default function Profile(props) {
+export default function Profile({onExitBtn, children, handleUserUpdate}) {
+
+  const currentUser = useContext(CurrentUserContext);
+  console.log(currentUser)
 
   const [active, setActive] = useState(false);
   const disabled = false;
-  const [name, setName] = useState('Виталий');
-  const [email, setEmail] = useState('pochta@yandex.ru');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const nameInput = useRef();
   const emailInput = useRef();
-  console.log(name)
-  console.log(emailInput.current)
-  console.log(disabled)
+  
 
   function editProfile () {
     setActive(true);
@@ -27,13 +31,27 @@ export default function Profile(props) {
     setEmail(e.target.value)
   }
 
+  function haandleLogout() {
+    onExitBtn()
+  }
+
+  function handleFormSubmit (e) {
+    e.preventDefault()
+    handleUserUpdate(email, name)
+  }
+
+  useEffect(() => {
+    setName(currentUser.name)
+    setEmail(currentUser.email)
+  }, [])
+
   return (
 
     <div className='profile'>
-      {props.children}
+      {children}
       <main className='profile__body'>
-        <h1 className='profile__title'>Привет, Виталий!</h1>
-        <form className='profile__form'>
+        <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
+        <form className='profile__form' onSubmit={handleFormSubmit}>
           <div className='profile__input-container'>
             <label htmlFor='name' className='profile__lable'>Имя</label>
             <input onChange={changeName} className='profile__input' id='name' value={name} disabled ref={nameInput}/>
@@ -49,7 +67,7 @@ export default function Profile(props) {
         </form>
         <div className={`profile__buttons ${active ? 'profile__buttons_hidden' : ''}`}>
           <button className='profile__edit-btn' type='button' onClick={editProfile}>Редактировать</button>
-          <Link to='/movies' className='profile__exit'>Выйти из аккаунта</Link>
+          <button type='button' onClick={haandleLogout} className='profile__exit'>Выйти из аккаунта</button>
         </div>
       </main>
     </div>

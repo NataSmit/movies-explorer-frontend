@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -19,10 +19,19 @@ import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 import {moviesApi} from '../../utils/MoviesApi';
 import {mainApi} from '../../utils/MainApi';
+import {apiAuth} from '../../utils/ApiAuth';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 
 function App() {
-
+  const [currentUser, setCurrentUser] = useState({});
+  const [authorized, setAuthorized] = useState(true)
+  
+  const history = useHistory();
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [message, setMessage] = useState({ successful: false, message: "" });
   const loggedIn = true;
   const saved = true;
   const minimal = true;
@@ -169,70 +178,191 @@ function App() {
   console.log('filteredMovies:', filteredMovies)
   console.log('isSearchSuccessful:', isSearchSuccessful)
   console.log('windowInnerWidth:', windowInnerWidth)
+
+
+  //function handleRegistration(name, email, password) {
+  //  apiAuth
+  //  .register(name, email, password)
+  //  .then((res) => console.log(res))
+  //  .catch((err) => console.log(err))
+  //}
+
+  function handleRegistration(name, email, password) {
+    apiAuth
+    .register(name, email, password)
+      .then((res) => {
+        if (res) {
+         
+          setIsInfoTooltipOpen(true);
+          setMessage({
+            successful: true,
+            message: "Вы успешно зарегистрировались!",
+          });
+        }
+      })
+      .catch((err) => {
+        setIsInfoTooltipOpen(true);
+        setMessage({
+          successful: false,
+          message: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+      });
+  }
   
+  function handleLogin(email, password) {
+    apiAuth
+    .login(password, email)
+    .then((res) => {
+      if (res.token) {
+        UserDataCheck()
+      }
+    })
+    .catch((err) => console.log(err))
+  }
+
+  function handleLogout() {
+    apiAuth
+    .logout()
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+    setAuthorized(false)
+    redirectToLogin()
+    localStorage.removeItem('allFoundMovies')
+    localStorage.removeItem('keyWord')
+    localStorage.removeItem('shortMovie')
+  }
+ 
+  useEffect(() => {
+    UserDataCheck()
+  }, [])
+
+  function UserDataCheck() {
+    apiAuth
+    .getUserData()
+    .then((user) => {
+      if (user) {
+        setCurrentUser(user)
+        setAuthorized(true)
+        history.push("/movies")
+      } else {
+        setAuthorized(false)
+      }
+      
+    })
+    .catch((err) => console.log(err))
+  }
+
+  function handleUserUpdate (email, name) {
+    mainApi
+    .editProfile(email, name)
+    .then((updatedUser) => {
+      setIsInfoTooltipOpen(true);
+      setMessage({
+        successful: true,
+        message: "Данные обновлены",
+      });
+      setCurrentUser(updatedUser)
+    })
+    .catch((err) => console.log(err))
+  }
+
+  function closeInfoTooltip() {
+    setIsInfoTooltipOpen(false);
+    redirectToLoginAfterRegistration();
+  }
+
+  function redirectToLoginAfterRegistration() {
+    if (message.successful) {
+      redirectToLogin();
+    }
+  }
+
+  function redirectToRegistration() {
+    history.push("/signup");
+  }
+
+  function redirectToLogin() {
+    history.push("/signin");
+  }
 
   return (
     <div className='wrapper'>
-      <div className="root">
-        <Switch>
-          <Route exact path='/'>
-            <Main>
-              <Header />
-              <Promo />
-              <AboutProject >
-                <LandingTitle title={'О проекте'}/>
-              </AboutProject>
-              <Techs>
-                <LandingTitle title={'Технологии'}/>
-              </Techs>
-              <AboutMe>
-                <LandingTitle title={'Студент'}/>
-              </AboutMe>
-              <Footer />
-            </Main>
-          </Route>
-          <Route path='/movies'>
-            <Movies>
-              <Header loggedIn={loggedIn}/>
-              <SearchForm onSearchBtn={searchMovies} setShortMovie={setShortMovie} />
-              <Preloader isLoading={isLoading}/>
-              <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful}
-              serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
-              finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay}/>
-              <Footer />
-            </Movies>
-          </Route>
-          <Route path='/saved-movies'>
-            <SavedMovies>
-              <Header loggedIn={loggedIn}/>
-              <SearchForm />
-              <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm}/>
-              <Preloader />
-              <Footer />
-            </SavedMovies>
-          </Route>
-          <Route path='/profile'>
-            <Profile>
-              <Header loggedIn={loggedIn}/>
-            </Profile>
-          </Route>
-          <Route path='/signup'>
-            <Register>
-              <Header minimal={minimal}/>
-            </Register>
-          </Route>
-          <Route path='/signin'>
-            <Login>
-              <Header minimal={minimal}/>
-            </Login>
-          </Route>
-          <Route path='*'>
-            <NotFound />
-          </Route>
-        </Switch>
-        
-      </div>
-      
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="root">
+          <Switch>
+            <Route exact path='/'>
+              <Main>
+                <Header />
+                <Promo />
+                <AboutProject >
+                  <LandingTitle title={'О проекте'}/>
+                </AboutProject>
+                <Techs>
+                  <LandingTitle title={'Технологии'}/>
+                </Techs>
+                <AboutMe>
+                  <LandingTitle title={'Студент'}/>
+                </AboutMe>
+                <Footer />
+              </Main>
+            </Route>
+            <ProtectedRoute path='/movies' authorized={authorized}>
+              <Route >
+                <Movies>
+                  <Header loggedIn={loggedIn}/>
+                  <SearchForm onSearchBtn={searchMovies} setShortMovie={setShortMovie} />
+                  <Preloader isLoading={isLoading}/>
+                  <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful}
+                  serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
+                  finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay}/>
+                  <Footer />
+                </Movies>
+              </Route>
+            </ProtectedRoute>
+
+            <ProtectedRoute path='/saved-movies' authorized={authorized}>        
+              <Route >
+                <SavedMovies>
+                  <Header loggedIn={loggedIn}/>
+                  <SearchForm />
+                  <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm}/>
+                  <Preloader />
+                  <Footer />
+                </SavedMovies>
+              </Route>
+            </ProtectedRoute>
+
+            <ProtectedRoute path='/profile' authorized={authorized}>
+              <Route >
+                <Profile onExitBtn={handleLogout} handleUserUpdate={handleUserUpdate}>
+                  <Header loggedIn={loggedIn}/>
+                </Profile>
+              </Route>
+            </ProtectedRoute>
+
+            <Route path='/signup'>
+              <Register onRegisterBtn={handleRegistration}>
+                <Header minimal={minimal}/>
+              </Register>
+            </Route>
+            <Route path='/signin'>
+              <Login onLoginBtn={handleLogin}>
+                <Header minimal={minimal}/>
+              </Login>
+            </Route>
+            <Route path='*'>
+              <NotFound />
+            </Route>
+          </Switch>
+          
+        </div>
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          onClose={closeInfoTooltip}
+          message={message.message}
+          successful={message.successful}
+        />
+      </CurrentUserContext.Provider>  
     </div>
   )
 
