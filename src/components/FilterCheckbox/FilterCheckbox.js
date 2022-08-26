@@ -17,6 +17,8 @@ export default function FilterCheckbox({setShortMovie}) {
     }
   }, [])
 
+
+
   return (
     <div className='filterCheckbox'>
       <div className='filterCheckbox__container'>

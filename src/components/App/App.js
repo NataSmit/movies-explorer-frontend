@@ -27,7 +27,7 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [authorized, setAuthorized] = useState(true)
+  const [authorized, setAuthorized] = useState(false)
   
   const history = useHistory();
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
@@ -40,8 +40,7 @@ function App() {
   const [initialMovies, setInitialMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchSuccessful, setIsSearchSuccessful] = useState(undefined);
-  
-  const [serverError, setServerError] = useState(false);
+  const [serverError, setServerError] = useState({ failed: false, message: "" });
   const [savedMovies, setSavedMovies] = useState([]);
 
   const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
@@ -51,11 +50,12 @@ function App() {
   const [finalNumberOfMoviesToDisplay, setFinalNumberOfMoviesToDisplay] = useState(moviesToDisplay)
   const [shortMovie, setShortMovie] = useState(false)
 
-
+  console.log('savedMovies:', savedMovies);
   console.log('moviesToDisplay:', moviesToDisplay);
   console.log('finalNumberOfMoviesToDisplay:', finalNumberOfMoviesToDisplay);
   console.log('shortMovie:', shortMovie)
 
+ 
    function handleWindowWidth() {
      setTimeout(() => {
        setWindowInnerWidth(window.innerWidth)
@@ -94,17 +94,23 @@ function App() {
   }
 
   useEffect(() => {
+    checkLocalStorage()
+    setServerError({
+      failed: false,
+      message: ''
+    })
+  }, [])
+
+  function checkLocalStorage() {
     if (localStorage.allFoundMovies) {
       setFilteredMovies(JSON.parse(localStorage.getItem('allFoundMovies')))
     } else {
       setFilteredMovies([])
     }
-    
-  }, [])
+  }
 
  
   function checkIsSearchSuccessful(filmArr) {
-   
     if (filmArr.length === 0) {
       setIsSearchSuccessful(false);
     } else {
@@ -192,7 +198,6 @@ function App() {
     .register(name, email, password)
       .then((res) => {
         if (res) {
-         
           setIsInfoTooltipOpen(true);
           setMessage({
             successful: true,
@@ -201,12 +206,20 @@ function App() {
         }
       })
       .catch((err) => {
+        console.log(err)
+        console.log(typeof err)
+        setServerError({
+          failed: true,
+          message: err.toString()
+        })
         setIsInfoTooltipOpen(true);
         setMessage({
           successful: false,
           message: "Что-то пошло не так! Попробуйте ещё раз.",
         });
-      });
+
+      })
+      
   }
   
   function handleLogin(email, password) {
@@ -215,9 +228,15 @@ function App() {
     .then((res) => {
       if (res.token) {
         UserDataCheck()
+        checkLocalStorage()
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setServerError({
+        failed: true,
+        message: err.toString()
+      })
+    })
   }
 
   function handleLogout() {
@@ -292,7 +311,7 @@ function App() {
           <Switch>
             <Route exact path='/'>
               <Main>
-                <Header />
+                <Header authorized={authorized}/>
                 <Promo />
                 <AboutProject >
                   <LandingTitle title={'О проекте'}/>
@@ -312,7 +331,7 @@ function App() {
                   <Header loggedIn={loggedIn}/>
                   <SearchForm onSearchBtn={searchMovies} setShortMovie={setShortMovie} />
                   <Preloader isLoading={isLoading}/>
-                  <MoviesCardList filteredMovies={filteredMovies} isSearchSuccessful={isSearchSuccessful}
+                  <MoviesCardList filteredMovies={filteredMovies}  isSearchSuccessful={isSearchSuccessful}
                   serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
                   finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay}/>
                   <Footer />
@@ -341,12 +360,12 @@ function App() {
             </ProtectedRoute>
 
             <Route path='/signup'>
-              <Register onRegisterBtn={handleRegistration}>
+              <Register onRegisterBtn={handleRegistration} serverError={serverError}>
                 <Header minimal={minimal}/>
               </Register>
             </Route>
             <Route path='/signin'>
-              <Login onLoginBtn={handleLogin}>
+              <Login onLoginBtn={handleLogin} serverError={serverError}>
                 <Header minimal={minimal}/>
               </Login>
             </Route>

@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function SubmitButton({name}) {
+export default function SubmitButton({name, isSubmitBtnDisabled}) {
+  console.log('isSubmitBtnDisabled btn', isSubmitBtnDisabled)
+
   return (
-    <button className='submitButton'>{name}</button>
+    <button disabled={isSubmitBtnDisabled} className='submitButton'>{name}</button>
   )
 }

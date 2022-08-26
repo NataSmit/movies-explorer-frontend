@@ -1,17 +1,22 @@
 import React from 'react';
 import {useState} from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard'
-
-import { useEffect } from 'react';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useEffect, useContext } from 'react';
 
 
 export default function MoviesCardList({saved, filteredMovies, isSearchSuccessful, serverError, 
   saveFilm, savedMovies, deleteFilm, handleMoreBtnClick, finalNumberOfMoviesToDisplay}) {
 
-  const moviesArray = saved ? savedMovies : filteredMovies
+  const currentUser = useContext(CurrentUserContext);
+  
+  const moviesArray = saved ? savedMovies.filter((film) => film.owner === currentUser.id) : filteredMovies
 
   console.log('finalNumberOfMoviesToDisplay cardList:', finalNumberOfMoviesToDisplay);
   console.log('moviesArray.length:', moviesArray.length)
+  
+  console.log('savedMovies cardList:', savedMovies)
+ 
 
    function onMoreBtnClick() {
     handleMoreBtnClick()
@@ -30,7 +35,7 @@ export default function MoviesCardList({saved, filteredMovies, isSearchSuccessfu
       </ul>
       <div className='moviesCardList__more'>
         {moviesArray.length > finalNumberOfMoviesToDisplay ? 
-        <button onClick={onMoreBtnClick} className={`moviesCardList__more-btn ${saved ? 'moviesCardList__more-btn_hidden' : ''}`}>Ещё</button>
+        <button onClick={onMoreBtnClick} className='moviesCardList__more-btn'>Ещё</button>
         : ''
         }
       </div>
