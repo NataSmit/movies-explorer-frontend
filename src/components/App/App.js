@@ -49,11 +49,13 @@ function App() {
   const moreMovies = windowInnerWidth >= 1190 ? 3 : 2
   const [finalNumberOfMoviesToDisplay, setFinalNumberOfMoviesToDisplay] = useState(moviesToDisplay)
   const [shortMovie, setShortMovie] = useState(false)
+  
 
   console.log('savedMovies:', savedMovies);
   console.log('moviesToDisplay:', moviesToDisplay);
   console.log('finalNumberOfMoviesToDisplay:', finalNumberOfMoviesToDisplay);
   console.log('shortMovie:', shortMovie)
+  console.log('initialMovies:', initialMovies)
 
  
    function handleWindowWidth() {
@@ -103,7 +105,9 @@ function App() {
 
   function checkLocalStorage() {
     if (localStorage.allFoundMovies) {
+      
       setFilteredMovies(JSON.parse(localStorage.getItem('allFoundMovies')))
+      
     } else {
       setFilteredMovies([])
     }
@@ -118,13 +122,14 @@ function App() {
     }
   }
 
+  function searchWithinSavedMovies(keyWord) {
+    const filteredSavedMovies = savedMovies.filter((film) => film.nameRU.toLowerCase().includes(keyWord.toLowerCase()))
+    checkIsSearchSuccessful(filteredSavedMovies)
+    setSavedMovies(filteredSavedMovies)
+  }
 
   function searchMovies(keyWord) {
     setFinalNumberOfMoviesToDisplay(moviesToDisplay)
-    if (!keyWord) {
-      console.log('Нужно ввести ключевое слово');
-    }
-    
     if (initialMovies.length === 0) {
       setIsLoading(true);
       moviesApi
@@ -135,8 +140,11 @@ function App() {
         })
         .catch((err) => {
           console.log(err)
-          //setServerError(true);
-          //setMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+          setServerError({
+            failed: true,
+            message: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+          })
+        
         })
         .finally (() => {
           setIsLoading(false);
@@ -144,7 +152,6 @@ function App() {
         })
     } else {
       filterMovies(keyWord, initialMovies);
-
       //checkIsSearchSuccessful()
     }
     
@@ -174,12 +181,16 @@ function App() {
  //}
 
   useEffect(() => {
+    getSavedMovies()
+  }, [])
+
+  function getSavedMovies() {
     mainApi
     .getFilms()
     .then((savedMovies) => setSavedMovies(savedMovies))
     .catch((err) => console.log(err))
-  }, [])
-
+  }
+  
   
   console.log('filteredMovies:', filteredMovies)
   console.log('isSearchSuccessful:', isSearchSuccessful)
@@ -229,6 +240,7 @@ function App() {
       if (res.token) {
         UserDataCheck()
         checkLocalStorage()
+        
       }
     })
     .catch((err) => {
@@ -296,9 +308,7 @@ function App() {
     }
   }
 
-  function redirectToRegistration() {
-    history.push("/signup");
-  }
+
 
   function redirectToLogin() {
     history.push("/signin");
@@ -333,7 +343,8 @@ function App() {
                   <Preloader isLoading={isLoading}/>
                   <MoviesCardList filteredMovies={filteredMovies}  isSearchSuccessful={isSearchSuccessful}
                   serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
-                  finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay}/>
+                  finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay} savedMovies={savedMovies}
+                  />
                   <Footer />
                 </Movies>
               </Route>
@@ -343,8 +354,9 @@ function App() {
               <Route >
                 <SavedMovies>
                   <Header loggedIn={loggedIn}/>
-                  <SearchForm />
-                  <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm}/>
+                  <SearchForm onSearchBtn={searchWithinSavedMovies}/>
+                  <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm} serverError={serverError}
+                  isSearchSuccessful={isSearchSuccessful} />
                   <Preloader />
                   <Footer />
                 </SavedMovies>

@@ -116,6 +116,13 @@
   opacity: 0.7;
 }
 
+.moviesCard__trailer-link {
+  display: block;
+  text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+}
+
 @media(max-width: 1190px) {
   .moviesCard__container {
     width: 339px;

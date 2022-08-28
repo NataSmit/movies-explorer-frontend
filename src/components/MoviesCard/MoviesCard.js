@@ -1,19 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function MoviesCard({picture, title, duration, saveFilm, film, saved, deleteFilm}) {
+export default function MoviesCard({picture, title, duration, saveFilm, film, saved, deleteFilm, trailerLink, 
+  isLiked}) {
    
-  const [addedToFafourites, setAddedToFafourites] = useState(false)
+  const [addedToFafourites, setAddedToFafourites] = useState(false);
+  console.log('isLiked' , isLiked)
+ 
+  function getTimeFromMins(mins) {
+    let hours = Math.trunc(mins/60);
+    let minutes = mins % 60;
+    return hours + 'ч' + ' ' + minutes + 'м';
+  };
+  const formattedDuration = getTimeFromMins(duration)
 
   function handleSaveClick() {
     saveFilm(film);
     setAddedToFafourites(true);
+    
   }
 
   function handleDeleteClick() {
     deleteFilm(film._id)
-    console.log(film._id)
-    console.log(film)
   }
 
   return (
@@ -29,13 +37,15 @@ export default function MoviesCard({picture, title, duration, saveFilm, film, sa
         </>
       }
       
-      <div className='moviesCard__container'>
-        <img className='moviesCard__img' src={picture} alt='film' />
-      </div>
-      <div className='moviesCard__description'>
-        <h2 className='moviesCard__title'>{title}</h2>
-        <div className='moviesCard__duration'>{duration}</div>
-      </div>
+      <a className='moviesCard__trailer-link' href={trailerLink} target='blank'>
+        <div className='moviesCard__container'>
+          <img className='moviesCard__img' src={picture} alt='film' />
+        </div>
+        <div className='moviesCard__description'>
+          <h2 className='moviesCard__title'>{title}</h2>
+          <div className='moviesCard__duration'>{formattedDuration}</div>
+        </div>
+      </a>
     </li>
   )
 }
