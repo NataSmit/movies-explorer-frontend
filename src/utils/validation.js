@@ -66,7 +66,7 @@ module.exports.validateLoginInputs = (validators, email, password, func) => {
 module.exports.profileValidators = {
   name: {
     required: (value) => { return value === ''}, // true - there's an error
-    nameFormat:(value) => { return !/^[A-Za-zА-яё -]+$/.test(value)}
+    nameFormat:(value) => { return !/^[A-Za-zА-яё -]+$/.test(value)},
   },
   email: {
     required: (value) => { return value === ''},

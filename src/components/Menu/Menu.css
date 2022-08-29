@@ -70,10 +70,12 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 12px;
-  border: none;
   background-color: transparent;
   color: white;
   transition: opacity .3s;
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
 }
 
 .menu__account::after {
