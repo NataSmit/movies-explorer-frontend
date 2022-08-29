@@ -5,6 +5,10 @@
   padding: 246px 0 60px;
 }
 
+.notFound__body {
+  text-align: center;
+}
+
 .notFound__title {
   font-size: 140px;
   line-height: 169px;
@@ -19,13 +23,20 @@
   margin: 0 0 184px 0;
 }
 
-.notFound__link {
+.notFound__btn {
   font-size: 14px;
   line-height: 17px;
   text-align: center;
   color: #4285F4;
-  display: block;
   text-decoration: none;
+  background-color: transparent;
+  border: none;
+  transition: opacity .3s;
+}
+
+.notFound__btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 @media(max-width: 1200px) {

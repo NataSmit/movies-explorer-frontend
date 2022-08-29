@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -23,27 +23,29 @@ import {apiAuth} from '../../utils/ApiAuth';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import {useCurrentWidth} from '../../hooks/useCurrentWidth';
 
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [authorized, setAuthorized] = useState(false)
-  
+  const location = useLocation()
   const history = useHistory();
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [message, setMessage] = useState({ successful: false, message: "" });
+  const [message, setMessage] = useState({ successful: undefined, message: "" });
   const loggedIn = true;
   const saved = true;
   const minimal = true;
-  
+  const windowInnerWidth = useCurrentWidth()
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [initialMovies, setInitialMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchSuccessful, setIsSearchSuccessful] = useState(undefined);
   const [serverError, setServerError] = useState({ failed: false, message: "" });
   const [savedMovies, setSavedMovies] = useState([]);
+  const [noKeyword, setNoKeyword] = useState(false)
 
-  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
+  //const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
   const [moviesToDisplay, setMoviesToDisplay] = useState(12)
 
   const moreMovies = windowInnerWidth >= 1190 ? 3 : 2
@@ -52,35 +54,24 @@ function App() {
   
 
   console.log('savedMovies:', savedMovies);
-  console.log('moviesToDisplay:', moviesToDisplay);
+  console.log('filteredMovies app', filteredMovies);
   console.log('finalNumberOfMoviesToDisplay:', finalNumberOfMoviesToDisplay);
   console.log('shortMovie:', shortMovie)
   console.log('initialMovies:', initialMovies)
-
+  console.log('windowInnerWidth:', windowInnerWidth)
  
-   function handleWindowWidth() {
-     setTimeout(() => {
-       setWindowInnerWidth(window.innerWidth)
-     }, 2000)
-     
-   }
+  
+  useEffect(() => {
+    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
+      setMoviesToDisplay(12);
+     } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
+      setMoviesToDisplay(8);
+     } else {
+      setMoviesToDisplay(5);
+     }
+  }, [windowInnerWidth, moviesToDisplay])
 
-   useEffect(() => {
-     window.addEventListener('resize', handleWindowWidth)
-     return () => window.removeEventListener('resize', handleWindowWidth)
-   }, [])
-
-   useEffect(() => {
-     if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
-       setMoviesToDisplay(12);
-      } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
-       setMoviesToDisplay(8);
-      } else {
-       setMoviesToDisplay(5);
-      }
-   }, [windowInnerWidth, moviesToDisplay])
-
-   function handleMoreBtnClick() {
+  function handleMoreBtnClick() {
     setFinalNumberOfMoviesToDisplay(finalNumberOfMoviesToDisplay + moreMovies)
   }
 
@@ -93,6 +84,10 @@ function App() {
     localStorage.setItem('keyWord', keyWord)
     localStorage.setItem('shortMovie', shortMovie)
     setFilteredMovies(shortMovie ? allFoundMovies.filter((film) => film.duration <= 40) : allFoundMovies)
+  }
+
+  function handleShortMovieBtn(movieArr) {
+    movieArr.filter((film) => film.duration <= 40)
   }
 
   useEffect(() => {
@@ -130,6 +125,12 @@ function App() {
 
   function searchMovies(keyWord) {
     setFinalNumberOfMoviesToDisplay(moviesToDisplay)
+    if (!keyWord) {
+      setNoKeyword(true)
+      return
+    } else {
+      setNoKeyword(false)
+    }
     if (initialMovies.length === 0) {
       setIsLoading(true);
       moviesApi
@@ -148,11 +149,11 @@ function App() {
         })
         .finally (() => {
           setIsLoading(false);
-          //checkIsSearchSuccessful()
+          
         })
     } else {
       filterMovies(keyWord, initialMovies);
-      //checkIsSearchSuccessful()
+      
     }
     
   }
@@ -173,12 +174,11 @@ function App() {
     .catch((err) => console.log(err))
   }
 
- //function getSavedFilms() {
- //  mainApi
- //  .getFilms()
- //  .then((savedMovies) => setSavedMovies(savedMovies))
- //  .catch((err) => console.log(err))
- //}
+  function deleteSavedFilmFromMoviesPage(id) {
+    const movieToDelete = savedMovies.find((movie) => movie.movieId === id)
+    deleteFilm(movieToDelete._id)
+  }
+
 
   useEffect(() => {
     getSavedMovies()
@@ -197,13 +197,6 @@ function App() {
   console.log('windowInnerWidth:', windowInnerWidth)
 
 
-  //function handleRegistration(name, email, password) {
-  //  apiAuth
-  //  .register(name, email, password)
-  //  .then((res) => console.log(res))
-  //  .catch((err) => console.log(err))
-  //}
-
   function handleRegistration(name, email, password) {
     apiAuth
     .register(name, email, password)
@@ -214,6 +207,7 @@ function App() {
             successful: true,
             message: "Вы успешно зарегистрировались!",
           });
+          history.push('/movies')
         }
       })
       .catch((err) => {
@@ -240,7 +234,7 @@ function App() {
       if (res.token) {
         UserDataCheck()
         checkLocalStorage()
-        
+        history.push('/movies')
       }
     })
     .catch((err) => {
@@ -274,7 +268,8 @@ function App() {
       if (user) {
         setCurrentUser(user)
         setAuthorized(true)
-        history.push("/movies")
+        //history.push(location.pathname)
+        history.push('/movies')
       } else {
         setAuthorized(false)
       }
@@ -294,12 +289,23 @@ function App() {
       });
       setCurrentUser(updatedUser)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setIsInfoTooltipOpen(true);
+      setMessage({
+        successful: false,
+        message: "Ошибка при обновлении данных",
+      });
+      console.log(err)
+        console.log(typeof err)
+        setServerError({
+          failed: true,
+          message: 'Указанный email уже существует'
+        })
+    })
   }
 
   function closeInfoTooltip() {
     setIsInfoTooltipOpen(false);
-    redirectToLoginAfterRegistration();
   }
 
   function redirectToLoginAfterRegistration() {
@@ -344,7 +350,7 @@ function App() {
                   <MoviesCardList filteredMovies={filteredMovies}  isSearchSuccessful={isSearchSuccessful}
                   serverError={serverError} saveFilm={saveFilm} handleMoreBtnClick={handleMoreBtnClick}
                   finalNumberOfMoviesToDisplay={finalNumberOfMoviesToDisplay} savedMovies={savedMovies}
-                  />
+                  deleteFilmFromMoviesPage={deleteSavedFilmFromMoviesPage} noKeyword={noKeyword}/>
                   <Footer />
                 </Movies>
               </Route>
@@ -356,7 +362,7 @@ function App() {
                   <Header loggedIn={loggedIn}/>
                   <SearchForm onSearchBtn={searchWithinSavedMovies}/>
                   <MoviesCardList saved={saved} savedMovies={savedMovies} deleteFilm={deleteFilm} serverError={serverError}
-                  isSearchSuccessful={isSearchSuccessful} />
+                  isSearchSuccessful={isSearchSuccessful} noKeyword={noKeyword} />
                   <Preloader />
                   <Footer />
                 </SavedMovies>
@@ -365,7 +371,7 @@ function App() {
 
             <ProtectedRoute path='/profile' authorized={authorized}>
               <Route >
-                <Profile onExitBtn={handleLogout} handleUserUpdate={handleUserUpdate}>
+                <Profile onExitBtn={handleLogout} handleUserUpdate={handleUserUpdate} serverError={serverError}>
                   <Header loggedIn={loggedIn}/>
                 </Profile>
               </Route>

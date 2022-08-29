@@ -2,10 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 
 export default function MoviesCard({picture, title, duration, saveFilm, film, saved, deleteFilm, trailerLink, 
-  isLiked}) {
+  isLiked, test, deleteFilmFromMoviesPage}) {
    
   const [addedToFafourites, setAddedToFafourites] = useState(false);
-  console.log('isLiked' , isLiked)
+ 
  
   function getTimeFromMins(mins) {
     let hours = Math.trunc(mins/60);
@@ -24,6 +24,11 @@ export default function MoviesCard({picture, title, duration, saveFilm, film, sa
     deleteFilm(film._id)
   }
 
+  function handleTickClick() {
+    deleteFilmFromMoviesPage(film.id)
+  }
+
+ 
   return (
     <li className='moviesCard'>
       {
@@ -31,9 +36,9 @@ export default function MoviesCard({picture, title, duration, saveFilm, film, sa
          ? <button className='moviesCard__delete-btn' onClick={handleDeleteClick}></button> 
          : 
          <>
-          <button type='button' className={`${addedToFafourites ? 'moviesCard__save-btn_hidden' : 'moviesCard__save-btn'}`} 
+          <button type='button' className={`${addedToFafourites || isLiked ? 'moviesCard__save-btn_hidden' : 'moviesCard__save-btn'}`} 
           onClick={handleSaveClick}>Сохранить</button>
-          <div className={`moviesCard__tick ${addedToFafourites ? 'moviesCard__tick_visible' : ''}`}></div>
+          <button type='button' onClick={handleTickClick} className={`moviesCard__tick ${addedToFafourites || isLiked ? 'moviesCard__tick_visible' : ''}`}></button>
         </>
       }
       

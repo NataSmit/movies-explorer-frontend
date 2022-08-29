@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import {useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import {validators, validateInputs} from '../../utils/validation'
 
-export default function Profile({onExitBtn, children, handleUserUpdate}) {
+export default function Profile({onExitBtn, children, handleUserUpdate, serverError}) {
 
   const currentUser = useContext(CurrentUserContext);
   console.log(currentUser)
@@ -35,9 +36,11 @@ export default function Profile({onExitBtn, children, handleUserUpdate}) {
     onExitBtn()
   }
 
+ 
   function handleFormSubmit (e) {
     e.preventDefault()
     handleUserUpdate(email, name)
+    setActive(false)
   }
 
   useEffect(() => {
@@ -62,6 +65,7 @@ export default function Profile({onExitBtn, children, handleUserUpdate}) {
           </div>
           <div className='profile__submit-container'>
             <span className={`profile__errorMessage ${disabled ? 'profile__errorMessage_visible' : ''}`}>При обновлении профиля произошла ошибка.</span>
+            {serverError.failed &&  <span className='register__errorMessage register__errorMessage_small'>{serverError.message}</span>}
             <button className={`profile__submit-btn ${disabled ? 'profile__submit-btn_disabled' : ''} ${active ? 'profile__submit-btn_visible' : ''}`}>Сохранить</button>
           </div>     
         </form>

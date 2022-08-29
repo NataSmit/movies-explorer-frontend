@@ -6,7 +6,13 @@ class MainApi {
 
   _checkResponse(res) {
     if (!res.ok) {
-      return Promise.reject(`Error: ${res.status}`)
+      console.log('res', res)
+      //return Promise.reject(`Error: ${res.status}`)
+      return res.json().then((data) => {
+        console.log('data.message', data.message)
+        throw new Error(data.message);
+        
+      });
     }
     return res.json()
   }
@@ -17,13 +23,13 @@ class MainApi {
       credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
-        country: film.country,
-        director: film.director,
-        duration: film.duration,
-        year: film.year,
+        country: film.country || 'Нет данных',
+        director: film.director || 'Нет данных',
+        duration: film.duration || 0,
+        year: film.year || 'Нет данных',
         description: film.description,
         image: `https://api.nomoreparties.co${film.image.url}`,
-        trailerLink: film.trailerLink,
+        trailerLink: film.trailerLink || 'https://www.youtube.com',
         nameRU: film.nameRU,
         nameEN: film.nameEN,
         thumbnail: `https://api.nomoreparties.co${film.image.formats.thumbnail.url}`,

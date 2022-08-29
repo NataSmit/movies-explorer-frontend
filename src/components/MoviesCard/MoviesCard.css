@@ -90,6 +90,13 @@
   top: 14px;
   right: 14px;
   display: none;
+  border: none;
+  transition: opacity .3s;
+}
+
+.moviesCard__tick:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .moviesCard__tick_visible {

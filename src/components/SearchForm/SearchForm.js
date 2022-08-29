@@ -25,7 +25,7 @@ export default function SearchForm({onSearchBtn, setShortMovie}) {
   return (
     <div className='searchForm' >
       <form className='searchForm__form' onSubmit={submitSearch}>
-        <input className='searchForm__input' type='text' value={value || ''} onChange={handleChange} placeholder='Фильм' required/>
+        <input className='searchForm__input' type='text' value={value || ''} onChange={handleChange} placeholder='Фильм'/>
         <button className='searchForm__button'></button>
       </form>
       <FilterCheckbox setShortMovie={setShortMovie} />
