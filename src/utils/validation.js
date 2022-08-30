@@ -1,4 +1,4 @@
-module.exports.validators = {
+export const validators = {
   name: {
     required: (value) => { return value === ''}, // true - there's an error
     nameFormat:(value) => { return !/^[A-Za-zА-яё -]+$/.test(value)}
@@ -12,7 +12,7 @@ module.exports.validators = {
   }
 }
 
-module.exports.validateInputs = (validators, name, email, password, func) => {
+export const validateInputs = (validators, name, email, password, func) => {
   const nameValidationResult = Object.keys(validators.name).map((errorKey) => {
     const errorResult = validators.name[errorKey](name)
     return {[errorKey]: errorResult}
@@ -35,7 +35,7 @@ module.exports.validateInputs = (validators, name, email, password, func) => {
   })
 }
 
-module.exports.loginValidators = {
+export const loginValidators = {
   email: {
     required: (value) => { return value === ''},
     emailFormat: (value) => { return !/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(value)}
@@ -45,7 +45,7 @@ module.exports.loginValidators = {
   }
 }
 
-module.exports.validateLoginInputs = (validators, email, password, func) => {
+export const validateLoginInputs = (validators, email, password, func) => {
 
   const emailValidationResult = Object.keys(validators.email).map((errorKey) => {
     const errorResult = validators.email[errorKey](email)
@@ -63,7 +63,7 @@ module.exports.validateLoginInputs = (validators, email, password, func) => {
   })
 }
 
-module.exports.profileValidators = {
+export const profileValidators = {
   name: {
     required: (value) => { return value === ''}, // true - there's an error
     nameFormat:(value) => { return !/^[A-Za-zА-яё -]+$/.test(value)},
@@ -74,7 +74,7 @@ module.exports.profileValidators = {
   }
 }
 
-module.exports.profileValidateInputs = (validators, name, email, func) => {
+export const profileValidateInputs = (validators, name, email, func) => {
   const nameValidationResult = Object.keys(validators.name).map((errorKey) => {
     const errorResult = validators.name[errorKey](name)
     return {[errorKey]: errorResult}
