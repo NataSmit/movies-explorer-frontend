@@ -82,6 +82,10 @@ function App() {
       failed: false,
       message: "",
     });
+    setMessage({
+      successful: undefined,
+      message: ''
+    });
     getSavedMovies();
   }, []);
 
@@ -400,6 +404,7 @@ function App() {
                     serverError={serverError}
                     isSearchSuccessful={isSearchSuccessful}
                     noKeyword={noKeyword}
+                    message={message}
                   />
                   <Preloader />
                   <Footer />
