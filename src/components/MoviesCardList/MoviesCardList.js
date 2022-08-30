@@ -14,7 +14,8 @@ export default function MoviesCardList({
   handleMoreBtnClick,
   finalNumberOfMoviesToDisplay,
   deleteFilmFromMoviesPage,
-  noKeyword = { noKeyword },
+  message,
+  noKeyword
 }) {
   const currentUser = useContext(CurrentUserContext);
   const savedMoviesFilteredByOwner = savedMovies.filter(
@@ -41,8 +42,8 @@ export default function MoviesCardList({
         ) : (
           <li className="moviesCardList_type_message">Ничего не найдено</li>
         )}
-        {serverError.failed && (
-          <li className="moviesCardList_type_message">{serverError.message}</li>
+        {message.successful ? '' : (
+          <li className="moviesCardList_type_message">{message.message}</li>
         )}
         {noKeyword && (
           <li className="moviesCardList_type_message">
