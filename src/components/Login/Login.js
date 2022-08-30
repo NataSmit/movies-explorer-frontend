@@ -29,7 +29,6 @@ export default function Login({ children, onLoginBtn, serverError }) {
   const handleInputChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      console.log(e.target);
       setFormValues((prevState) => ({ ...prevState, [name]: value }));
     },
     [setFormValues]
