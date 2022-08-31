@@ -322,12 +322,10 @@ function App() {
             successful: true,
             message: "Вы успешно зарегистрировались!",
           });
-          history.push("/movies");
+          history.push("/signin");
         }
       })
       .catch((err) => {
-        console.log(err);
-        console.log(typeof err);
         setServerError({
           failed: true,
           message: err.toString(),
@@ -344,7 +342,7 @@ function App() {
     apiAuth
       .login(password, email)
       .then((res) => {
-        if (res.token) {
+        if (res) {
           checkUserData();
           checkLocalStorage();
           history.push("/movies");
@@ -355,6 +353,7 @@ function App() {
           failed: true,
           message: err.toString(),
         });
+        setAuthorized(false);
       });
   }
 

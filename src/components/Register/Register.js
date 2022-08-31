@@ -43,7 +43,6 @@ export default function Register({ children, onRegisterBtn, serverError }) {
   const handleInputChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      console.log(e.target);
       setFormValues((prevState) => ({ ...prevState, [name]: value }));
     },
     [setFormValues]

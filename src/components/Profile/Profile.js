@@ -86,7 +86,7 @@ export default function Profile({
     emailInput.current.removeAttribute("disabled");
   }
 
-  function haandleLogout() {
+  function handleLogout() {
     onExitBtn();
   }
 
@@ -202,7 +202,7 @@ export default function Profile({
           </button>
           <button
             type="button"
-            onClick={haandleLogout}
+            onClick={handleLogout}
             className="profile__exit"
           >
             Выйти из аккаунта
