@@ -5,6 +5,8 @@ import { useState } from "react";
 export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   const [checked, setChecked] = useState(false);
 
+  console.log('checked filtercheckbox', checked)
+
   function handleChange() {
     setChecked(!checked);
     setShortMovie(!checked);
@@ -14,6 +16,8 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   useEffect(() => {
     if (localStorage.shortMovie) {
       setChecked(JSON.parse(localStorage.getItem("shortMovie")));
+    } else {
+      setChecked(false)
     }
   }, []);
 
@@ -26,6 +30,7 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
           id="shortFilm"
           checked={checked}
           onChange={handleChange}
+          
         />
         <label htmlFor="shortFilm" className="filterCheckbox__label">
           Короткометражки

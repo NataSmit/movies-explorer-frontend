@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useCallback } from "react";
 import { useState, useRef, useContext } from "react";
-import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { profileValidateInputs } from "../../utils/validation";
 

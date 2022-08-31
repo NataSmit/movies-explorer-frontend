@@ -47,6 +47,7 @@ function App() {
     message: "",
   });
   const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMoviesForRender, setSavedMoviesForRender] = useState([]);
   const [noKeyword, setNoKeyword] = useState(false);
   const [moviesToDisplay, setMoviesToDisplay] = useState(12);
   const moreMovies = windowInnerWidth >= 1190 ? 3 : 2;
@@ -66,28 +67,71 @@ function App() {
 
   useEffect(() => {
     if (shortMovie) {
-      setFilteredMovies(
-        JSON.parse(localStorage.getItem("allFoundMovies")).filter(
-          (film) => film.duration <= 40
-        )
-      );
+      if (localStorage.allFoundMovies) {
+        setFilteredMovies(
+          JSON.parse(localStorage.getItem("allFoundMovies")).filter(
+            (film) => film.duration <= 40
+          )
+        );
+      } else {
+        setFilteredMovies(filterShortMovies(initialMovies));
+      }
     } else {
-      setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+      if (localStorage.allFoundMovies) {
+        setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+      } else {
+        setFilteredMovies([]);
+      }
     }
-  }, [shortMovie]);
+  }, [shortMovie, initialMovies]);
+
+  useEffect(() => {
+    if (shortMovie) {
+      if (savedMovies.length === 0) {
+        setSavedMoviesForRender([]);
+      } else {
+        setSavedMoviesForRender(filterShortMovies(savedMovies));
+      }
+    } else {
+      if (savedMovies.length === 0) {
+        setSavedMoviesForRender([]);
+      } else {
+        setSavedMoviesForRender(savedMovies);
+      }
+    }
+  }, [shortMovie, savedMovies]);
+
+  useEffect(() => {
+    const localInitialMovies = localStorage.getItem(initialMovies);
+    console.log("localInitialMovies", localInitialMovies);
+    if (localInitialMovies) {
+      try {
+        setInitialMovies(JSON.parse(localInitialMovies));
+      } catch (err) {
+        localStorage.removeItem(initialMovies);
+        getInitialMovies();
+      }
+    } else {
+      getInitialMovies();
+    }
+  }, []);
 
   useEffect(() => {
     checkLocalStorage();
+    getSavedMovies();
     setServerError({
       failed: false,
       message: "",
     });
     setMessage({
       successful: undefined,
-      message: ''
+      message: "",
     });
-    getSavedMovies();
   }, []);
+
+  useEffect(() => {
+    getSavedMovies();
+  }, [authorized]);
 
   useEffect(() => {
     apiAuth
@@ -96,7 +140,6 @@ function App() {
         if (user) {
           setCurrentUser(user);
           setAuthorized(true);
-          //history.push(location.pathname)
         } else {
           setAuthorized(false);
         }
@@ -106,6 +149,16 @@ function App() {
 
   //---------------логика работы фильмов------------
 
+  function getInitialMovies() {
+    moviesApi
+      .getMovies()
+      .then((initialMovies) => {
+        localStorage.setItem("initialMovies", JSON.stringify(initialMovies));
+        setInitialMovies(initialMovies);
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleMoreBtnClick() {
     setFinalNumberOfMoviesToDisplay(finalNumberOfMoviesToDisplay + moreMovies);
   }
@@ -114,39 +167,51 @@ function App() {
     const allFoundMovies = serverMovies.filter((film) =>
       film.nameRU.toLowerCase().includes(keyWord.toLowerCase())
     );
-    allFoundMovies.filter((film) => film.duration <= 40);
     checkIsSearchSuccessful(allFoundMovies);
     localStorage.setItem("allFoundMovies", JSON.stringify(allFoundMovies));
     localStorage.setItem("keyWord", keyWord);
-    localStorage.setItem("shortMovie", shortMovie);
-    setFilteredMovies(
-      shortMovie
-        ? allFoundMovies.filter((film) => film.duration <= 40)
-        : allFoundMovies
-    );
+    setFilteredMovies(allFoundMovies)
+  }
+
+  function filterShortMovies(moviesArr) {
+    return moviesArr.filter((film) => film.duration <= 40);
   }
 
   function handleShortMovieBtn() {
+    localStorage.setItem("shortMovie", JSON.stringify(!shortMovie));
     if (shortMovie) {
-      setFilteredMovies(
-        JSON.parse(localStorage.getItem("allFoundMovies")).filter(
-          (film) => film.duration <= 40
-        )
-      );
+      if (localStorage.allFoundMovies) {
+        const arrTest = JSON.parse(localStorage.getItem("allFoundMovies"));
+        console.log("arrTest handle shortMovie", arrTest);
+        setFilteredMovies(
+          filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
+        );
+      } else {
+        setFilteredMovies(filterShortMovies(initialMovies));
+      }
     } else {
-      setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+      if (localStorage.allFoundMovies) {
+        setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+      } else {
+        setFilteredMovies(initialMovies);
+      }
     }
   }
 
   function handleShortMovieBtnOnSavedMoviesPage() {
+    localStorage.setItem("shortMovie", JSON.stringify(!shortMovie));
     if (shortMovie) {
-      setSavedMovies(
-        JSON.parse(localStorage.getItem("savedMovies")).filter(
-          (film) => film.duration <= 40
-        )
-      );
+      if (savedMovies.length === 0) {
+        setSavedMoviesForRender([]);
+      } else {
+        setSavedMoviesForRender(filterShortMovies(savedMovies));
+      }
     } else {
-      setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+      if (savedMovies.length === 0) {
+        setSavedMoviesForRender([]);
+      } else {
+        setSavedMoviesForRender(savedMovies);
+      }
     }
   }
 
@@ -208,8 +273,12 @@ function App() {
   function saveFilm(film) {
     mainApi
       .saveFilm(film)
-      .then((savedFilm) => setSavedMovies([savedFilm, ...savedMovies]))
-      .catch((err) => console.log(err));
+      .then((savedFilm) => {
+        setSavedMovies([savedFilm, ...savedMovies]);
+        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+        setSavedMoviesForRender([savedFilm, ...savedMovies]);
+      })
+      .catch((err) => console.log("err by saving a film", err));
   }
 
   function deleteFilm(id) {
@@ -217,6 +286,10 @@ function App() {
       .deleteFilm(id)
       .then((res) => {
         setSavedMovies((state) => state.filter((film) => film._id !== id));
+        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+        setSavedMoviesForRender((state) =>
+          state.filter((film) => film._id !== id)
+        );
       })
       .catch((err) => console.log(err));
   }
@@ -232,6 +305,7 @@ function App() {
       .then((savedMovies) => {
         setSavedMovies(savedMovies);
         localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+        setSavedMoviesForRender(savedMovies);
       })
       .catch((err) => console.log(err));
   }
@@ -382,6 +456,7 @@ function App() {
                     deleteFilmFromMoviesPage={deleteSavedFilmFromMoviesPage}
                     message={message}
                     noKeyword={noKeyword}
+                    savedMoviesForRender={savedMoviesForRender}
                   />
                   <Footer />
                 </Movies>
@@ -405,6 +480,7 @@ function App() {
                     isSearchSuccessful={isSearchSuccessful}
                     noKeyword={noKeyword}
                     message={message}
+                    savedMoviesForRender={savedMoviesForRender}
                   />
                   <Preloader />
                   <Footer />

@@ -1,7 +1,5 @@
 import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useContext } from "react";
 
 export default function MoviesCardList({
   saved,
@@ -15,15 +13,13 @@ export default function MoviesCardList({
   finalNumberOfMoviesToDisplay,
   deleteFilmFromMoviesPage,
   message,
-  noKeyword
+  noKeyword,
+  savedMoviesForRender,
 }) {
-  const currentUser = useContext(CurrentUserContext);
-  const savedMoviesFilteredByOwner = savedMovies.filter(
-    (film) => film.owner === currentUser.id
-  );
-  const moviesArray = saved ? savedMoviesFilteredByOwner : filteredMovies;
+  const moviesArray = saved ? savedMoviesForRender : filteredMovies;
+
   const isMovieLiked = (id) => {
-    const isLiked = savedMoviesFilteredByOwner.find((savedMovie) => {
+    const isLiked = savedMovies.find((savedMovie) => {
       return savedMovie.movieId === id;
     });
 
@@ -42,13 +38,22 @@ export default function MoviesCardList({
         ) : (
           <li className="moviesCardList_type_message">Ничего не найдено</li>
         )}
-        {message.successful ? '' : (
+        {message.successful ? (
+          ""
+        ) : (
           <li className="moviesCardList_type_message">{message.message}</li>
         )}
         {noKeyword && (
           <li className="moviesCardList_type_message">
             Нужно ввести ключевое слово
           </li>
+        )}
+        {saved && savedMovies.length === 0 ? (
+          <li className="moviesCardList_type_message">
+            У Вас нет сохраненных фильмов
+          </li>
+        ) : (
+          ""
         )}
         {moviesArray.slice(0, finalNumberOfMoviesToDisplay).map((film) => (
           <MoviesCard
