@@ -72,9 +72,7 @@ function App() {
   const [shortMovie, setShortMovie] = useState(false);
   const [processing, setProcessing] = useState(false);
 
- 
   console.log("shortMovie App", shortMovie);
-  console.log("savedMovies", savedMovies);
 
   useEffect(() => {
     if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
@@ -96,7 +94,6 @@ function App() {
           filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
         );
       } else {
-        //setFilteredMovies(filterShortMovies(initialMovies));
         setFilteredMovies([]);
       }
     } else {
@@ -115,7 +112,6 @@ function App() {
           filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
         );
       } else {
-        //setFilteredMovies(filterShortMovies(initialMovies));
         setFilteredMovies([]);
       }
     } else {
@@ -125,7 +121,7 @@ function App() {
         setFilteredMovies([]);
       }
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (shortMovie) {
@@ -144,8 +140,6 @@ function App() {
   }, [shortMovie, savedMovies]);
 
   useEffect(() => {
-    //handleShortMovieBtn();
-    handleShortMovieBtnOnSavedMoviesPage()
     getSavedMovies();
     setServerError({
       failed: false,
@@ -200,12 +194,6 @@ function App() {
       });
     }
   }, [location.pathname]);
-
-  //useEffect(() => {
-  //  if (location.pathname === '/movies') {
-  //    setShortMovie(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
-  //  }
-  //}, [location.pathname])
 
   //---------------логика работы фильмов------------
 

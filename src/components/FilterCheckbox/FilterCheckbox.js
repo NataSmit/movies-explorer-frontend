@@ -14,12 +14,6 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   }
 
   useEffect(() => {
-    //if (localStorage.shortMovieMoviesPage) {
-    //  setChecked(JSON.parse(localStorage.getItem("shortMovie")));
-    //} else {
-    //  setChecked(false)
-    //}
-
     if (location.pathname === '/movies') {
       if (localStorage.shortMovieMoviesPage) {
           setChecked(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
@@ -27,13 +21,7 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
           setChecked(false);
         }
     } 
-     //if (location.pathname === '/saved-movies') {
-     // if (localStorage.shortMovieSavedMoviesPage) {
-     //   setChecked(JSON.parse(localStorage.getItem("shortMovie")));
-     // } else {
-     //   setChecked(false)
-     // }
-     //} 
+     
   }, []);
 
   return (
