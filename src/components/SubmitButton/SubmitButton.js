@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function SubmitButton({name, isSubmitBtnDisabled}) {
+export default function SubmitButton({name, isSubmitBtnDisabled, processing}) {
 
   return (
-    <button disabled={isSubmitBtnDisabled} className='submitButton'>{name}</button>
+    <button disabled={isSubmitBtnDisabled || processing} className='submitButton'>{name}</button>
   )
 }

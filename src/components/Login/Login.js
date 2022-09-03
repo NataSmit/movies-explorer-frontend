@@ -3,7 +3,7 @@ import SubmitButton from "../SubmitButton/SubmitButton";
 import { Link } from "react-router-dom";
 import { loginValidators, validateLoginInputs } from "../../utils/validation";
 
-export default function Login({ children, onLoginBtn, serverError }) {
+export default function Login({ children, onLoginBtn, serverError, processing }) {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -53,6 +53,7 @@ export default function Login({ children, onLoginBtn, serverError }) {
             onChange={handleInputChange}
             type="email"
             required
+            disabled={processing}
           ></input>
           <span className="register__errorMessage register__errorMessage_small">
             {errors.email.required && "Это обязательное поле"}
@@ -70,6 +71,7 @@ export default function Login({ children, onLoginBtn, serverError }) {
             type="password"
             required
             minLength="3"
+            disabled={processing}
           ></input>
           <span className="register__errorMessage">
             {errors.password.required && "Это обязательное поле"}
@@ -83,6 +85,7 @@ export default function Login({ children, onLoginBtn, serverError }) {
           <SubmitButton
             name={"Войти"}
             isSubmitBtnDisabled={isSubmitBtnDisabled}
+            processing={processing}
           />
           <Link to="/signup" className="register__link">
             Ещё не зарегистрированы?{" "}

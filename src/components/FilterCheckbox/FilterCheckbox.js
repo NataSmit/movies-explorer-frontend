@@ -1,10 +1,10 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   const [checked, setChecked] = useState(false);
-
+  const location = useLocation()
   console.log('checked filtercheckbox', checked)
 
   function handleChange() {
@@ -14,11 +14,26 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   }
 
   useEffect(() => {
-    if (localStorage.shortMovie) {
-      setChecked(JSON.parse(localStorage.getItem("shortMovie")));
-    } else {
-      setChecked(false)
-    }
+    //if (localStorage.shortMovieMoviesPage) {
+    //  setChecked(JSON.parse(localStorage.getItem("shortMovie")));
+    //} else {
+    //  setChecked(false)
+    //}
+
+    if (location.pathname === '/movies') {
+      if (localStorage.shortMovieMoviesPage) {
+          setChecked(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
+        } else {
+          setChecked(undefined);
+        }
+    } 
+     //if (location.pathname === '/saved-movies') {
+     // if (localStorage.shortMovieSavedMoviesPage) {
+     //   setChecked(JSON.parse(localStorage.getItem("shortMovie")));
+     // } else {
+     //   setChecked(false)
+     // }
+     //} 
   }, []);
 
   return (

@@ -6,6 +6,7 @@ export default function SearchForm({
   onSearchBtn,
   setShortMovie,
   handleShortMovieBtn,
+  processing
 }) {
   const [value, setValue] = useState("");
 
@@ -33,8 +34,9 @@ export default function SearchForm({
           value={value || ""}
           onChange={handleChange}
           placeholder="Фильм"
+          disabled={processing}
         />
-        <button className="searchForm__button"></button>
+        <button className="searchForm__button" disabled={processing}></button>
       </form>
       <FilterCheckbox
         setShortMovie={setShortMovie}

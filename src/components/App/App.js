@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation, Redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -24,8 +24,16 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import { useCurrentWidth } from "../../hooks/useCurrentWidth";
+import {SHORTMOVIESDURATION, 
+        BIGSCREEN, 
+        MEDIUMSCREEN, 
+        SMALLSCREEN, 
+        CARDSNUMBERONBIGSCREEN, 
+        CARDSNUMBERONMEDIUMSCREEN,
+        CARDSNUMBERONSMALLSCREEN } from '../../utils/config';
 
 function App() {
+  const location = useLocation()
   const [currentUser, setCurrentUser] = useState({});
   const [authorized, setAuthorized] = useState(undefined);
   const history = useHistory();
@@ -54,27 +62,31 @@ function App() {
   const [finalNumberOfMoviesToDisplay, setFinalNumberOfMoviesToDisplay] =
     useState(moviesToDisplay);
   const [shortMovie, setShortMovie] = useState(false);
+  const [processing, setProcessing] = useState(false);
+
+ // console.log('windowInnerWidth', windowInnerWidth)
+ // console.log('moviesToDisplay', moviesToDisplay)
+  console.log('authorized', authorized)
+  console.log('location.pathname', location.pathname)
+  console.log('shortMovie App', shortMovie)
 
   useEffect(() => {
-    if (1280 >= windowInnerWidth && windowInnerWidth >= 1190) {
-      setMoviesToDisplay(12);
-    } else if (1190 >= windowInnerWidth && windowInnerWidth >= 768) {
-      setMoviesToDisplay(8);
+    if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
+      setMoviesToDisplay(CARDSNUMBERONBIGSCREEN);
+    } else if (MEDIUMSCREEN >= windowInnerWidth && windowInnerWidth >= SMALLSCREEN) {
+      setMoviesToDisplay(CARDSNUMBERONMEDIUMSCREEN);
     } else {
-      setMoviesToDisplay(5);
+      setMoviesToDisplay(CARDSNUMBERONSMALLSCREEN);
     }
   }, [windowInnerWidth, moviesToDisplay]);
 
   useEffect(() => {
     if (shortMovie) {
       if (localStorage.allFoundMovies) {
-        setFilteredMovies(
-          JSON.parse(localStorage.getItem("allFoundMovies")).filter(
-            (film) => film.duration <= 40
-          )
-        );
+        setFilteredMovies(filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies"))));
       } else {
-        setFilteredMovies(filterShortMovies(initialMovies));
+        //setFilteredMovies(filterShortMovies(initialMovies));
+        setFilteredMovies([]);
       }
     } else {
       if (localStorage.allFoundMovies) {
@@ -83,7 +95,7 @@ function App() {
         setFilteredMovies([]);
       }
     }
-  }, [shortMovie, initialMovies]);
+  }, [shortMovie]);
 
   useEffect(() => {
     if (shortMovie) {
@@ -102,22 +114,7 @@ function App() {
   }, [shortMovie, savedMovies]);
 
   useEffect(() => {
-    const localInitialMovies = localStorage.getItem(initialMovies);
-    console.log("localInitialMovies", localInitialMovies);
-    if (localInitialMovies) {
-      try {
-        setInitialMovies(JSON.parse(localInitialMovies));
-      } catch (err) {
-        localStorage.removeItem(initialMovies);
-        getInitialMovies();
-      }
-    } else {
-      getInitialMovies();
-    }
-  }, []);
-
-  useEffect(() => {
-    checkLocalStorage();
+    handleShortMovieBtn()
     getSavedMovies();
     setServerError({
       failed: false,
@@ -127,11 +124,26 @@ function App() {
       successful: undefined,
       message: "",
     });
+
   }, []);
+
+  useEffect(() => {
+    if (localStorage.shortMovieMoviesPage) {
+      setShortMovie(JSON.parse(localStorage.getItem("shortMovieMoviesPage")))
+    } else {
+      setShortMovie(undefined)
+    }
+  }, [])
 
   useEffect(() => {
     getSavedMovies();
   }, [authorized]);
+
+  useEffect(() => {
+    if (location.pathname === '/saved-movies') {
+      setSavedMoviesForRender(savedMovies);
+    }
+  }, [location.pathname, savedMovies])
 
   useEffect(() => {
     apiAuth
@@ -140,24 +152,31 @@ function App() {
         if (user) {
           setCurrentUser(user);
           setAuthorized(true);
+          history.push(location.pathname)
         } else {
           setAuthorized(false);
+          history.push("/");
         }
       })
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    if (location.pathname) {
+      setIsSearchSuccessful(undefined);
+    }
+
+  }, [location.pathname])
+
+  //useEffect(() => {
+  //  if (location.pathname === '/movies') {
+  //    setShortMovie(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
+  //  }
+  //}, [location.pathname])
+
+
   //---------------логика работы фильмов------------
 
-  function getInitialMovies() {
-    moviesApi
-      .getMovies()
-      .then((initialMovies) => {
-        localStorage.setItem("initialMovies", JSON.stringify(initialMovies));
-        setInitialMovies(initialMovies);
-      })
-      .catch((err) => console.log(err));
-  }
 
   function handleMoreBtnClick() {
     setFinalNumberOfMoviesToDisplay(finalNumberOfMoviesToDisplay + moreMovies);
@@ -170,36 +189,39 @@ function App() {
     checkIsSearchSuccessful(allFoundMovies);
     localStorage.setItem("allFoundMovies", JSON.stringify(allFoundMovies));
     localStorage.setItem("keyWord", keyWord);
-    setFilteredMovies(allFoundMovies)
+    setFilteredMovies(
+      shortMovie
+        ? filterShortMovies(allFoundMovies)
+        : allFoundMovies
+    );
+    //setFilteredMovies(allFoundMovies)
   }
 
   function filterShortMovies(moviesArr) {
-    return moviesArr.filter((film) => film.duration <= 40);
+    return moviesArr.filter((film) => film.duration <= SHORTMOVIESDURATION);
   }
 
   function handleShortMovieBtn() {
-    localStorage.setItem("shortMovie", JSON.stringify(!shortMovie));
+    localStorage.setItem("shortMovieMoviesPage", JSON.stringify(!shortMovie));
     if (shortMovie) {
       if (localStorage.allFoundMovies) {
-        const arrTest = JSON.parse(localStorage.getItem("allFoundMovies"));
-        console.log("arrTest handle shortMovie", arrTest);
         setFilteredMovies(
           filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
         );
       } else {
-        setFilteredMovies(filterShortMovies(initialMovies));
+        //setFilteredMovies(filterShortMovies(initialMovies));
+        setFilteredMovies([]);
       }
     } else {
       if (localStorage.allFoundMovies) {
         setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
       } else {
-        setFilteredMovies(initialMovies);
+        setFilteredMovies([]);
       }
     }
   }
 
   function handleShortMovieBtnOnSavedMoviesPage() {
-    localStorage.setItem("shortMovie", JSON.stringify(!shortMovie));
     if (shortMovie) {
       if (savedMovies.length === 0) {
         setSavedMoviesForRender([]);
@@ -215,13 +237,8 @@ function App() {
     }
   }
 
-  function checkLocalStorage() {
-    if (localStorage.allFoundMovies) {
-      setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
-    } else {
-      setFilteredMovies([]);
-    }
-  }
+
+  
 
   function checkIsSearchSuccessful(filmArr) {
     if (filmArr.length === 0) {
@@ -236,7 +253,7 @@ function App() {
       film.nameRU.toLowerCase().includes(keyWord.toLowerCase())
     );
     checkIsSearchSuccessful(filteredSavedMovies);
-    setSavedMovies(filteredSavedMovies);
+    setSavedMoviesForRender(filteredSavedMovies);
   }
 
   function searchMovies(keyWord) {
@@ -247,13 +264,15 @@ function App() {
     } else {
       setNoKeyword(false);
     }
-    if (initialMovies.length === 0) {
+    if (!localStorage.initialMovies) {
       setIsLoading(true);
+      setProcessing(true)
       moviesApi
         .getMovies()
         .then((moviesArr) => {
           filterMovies(keyWord, moviesArr);
           setInitialMovies(moviesArr);
+          localStorage.setItem("initialMovies", JSON.stringify(moviesArr));
         })
         .catch((err) => {
           setMessage({
@@ -264,9 +283,10 @@ function App() {
         })
         .finally(() => {
           setIsLoading(false);
+          setProcessing(false)
         });
     } else {
-      filterMovies(keyWord, initialMovies);
+      filterMovies(keyWord, JSON.parse(localStorage.getItem("initialMovies")));
     }
   }
 
@@ -275,7 +295,6 @@ function App() {
       .saveFilm(film)
       .then((savedFilm) => {
         setSavedMovies([savedFilm, ...savedMovies]);
-        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
         setSavedMoviesForRender([savedFilm, ...savedMovies]);
       })
       .catch((err) => console.log("err by saving a film", err));
@@ -286,7 +305,6 @@ function App() {
       .deleteFilm(id)
       .then((res) => {
         setSavedMovies((state) => state.filter((film) => film._id !== id));
-        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
         setSavedMoviesForRender((state) =>
           state.filter((film) => film._id !== id)
         );
@@ -304,7 +322,7 @@ function App() {
       .getFilms()
       .then((savedMovies) => {
         setSavedMovies(savedMovies);
-        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+        localStorage.setItem("savedMovie", JSON.stringify(savedMovies));
         setSavedMoviesForRender(savedMovies);
       })
       .catch((err) => console.log(err));
@@ -313,6 +331,7 @@ function App() {
   //-------------логика работы с юзером-------------
 
   function handleRegistration(name, email, password) {
+    setProcessing(true)
     apiAuth
       .register(name, email, password)
       .then((res) => {
@@ -322,7 +341,7 @@ function App() {
             successful: true,
             message: "Вы успешно зарегистрировались!",
           });
-          history.push("/signin");
+          handleLogin(email, password)
         }
       })
       .catch((err) => {
@@ -335,16 +354,19 @@ function App() {
           successful: false,
           message: "Что-то пошло не так! Попробуйте ещё раз.",
         });
-      });
+      })
+      .finally(() => {
+        setProcessing(false);
+      })
   }
 
   function handleLogin(email, password) {
+    setProcessing(true)
     apiAuth
       .login(password, email)
       .then((res) => {
         if (res) {
           checkUserData();
-          checkLocalStorage();
           history.push("/movies");
         }
       })
@@ -354,7 +376,10 @@ function App() {
           message: err.toString(),
         });
         setAuthorized(false);
-      });
+      })
+      .finally(() => {
+        setProcessing(false)
+      })
   }
 
   function handleLogout() {
@@ -366,8 +391,8 @@ function App() {
     history.push("/");
     localStorage.removeItem("allFoundMovies");
     localStorage.removeItem("keyWord");
-    localStorage.removeItem("shortMovie");
-    localStorage.removeItem("savedMovies");
+    localStorage.removeItem("shortMovieMoviesPage");
+    localStorage.removeItem('initialMovies');
   }
 
   function checkUserData() {
@@ -380,12 +405,14 @@ function App() {
           history.push("/movies");
         } else {
           setAuthorized(false);
+          history.push("/signin");
         }
       })
       .catch((err) => console.log(err));
   }
 
   function handleUserUpdate(email, name) {
+    setProcessing(true)
     mainApi
       .editProfile(email, name)
       .then((updatedUser) => {
@@ -406,7 +433,10 @@ function App() {
           failed: true,
           message: "Указанный email уже существует",
         });
-      });
+      })
+      .finally(() => {
+        setProcessing(false)
+      })
   }
 
   function closeInfoTooltip() {
@@ -442,6 +472,7 @@ function App() {
                     onSearchBtn={searchMovies}
                     setShortMovie={setShortMovie}
                     handleShortMovieBtn={handleShortMovieBtn}
+                    processing={processing}
                   />
                   <Preloader isLoading={isLoading} />
                   <MoviesCardList
@@ -494,6 +525,7 @@ function App() {
                   handleUserUpdate={handleUserUpdate}
                   serverError={serverError}
                   setServerError={setServerError}
+                  processing={processing}
                 >
                   <Header loggedIn={loggedIn} />
                 </Profile>
@@ -501,17 +533,22 @@ function App() {
             </ProtectedRoute>
 
             <Route path="/signup">
+              {authorized ? <Redirect to="/" /> :
               <Register
                 onRegisterBtn={handleRegistration}
                 serverError={serverError}
+                processing={processing}
               >
                 <Header minimal={minimal} />
               </Register>
+              }
             </Route>
             <Route path="/signin">
-              <Login onLoginBtn={handleLogin} serverError={serverError}>
+            {authorized ? <Redirect to="/" /> :
+              <Login onLoginBtn={handleLogin} serverError={serverError} processing={processing}>
                 <Header minimal={minimal} />
               </Login>
+            }
             </Route>
             <Route path="*">
               <NotFound />

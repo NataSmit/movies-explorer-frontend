@@ -10,6 +10,7 @@ export default function Profile({
   handleUserUpdate,
   serverError,
   setServerError,
+  processing
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -41,11 +42,8 @@ export default function Profile({
       },
       emailFormat: (value) => {
         return !/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(value);
-      },
-      sameValue: (value) => {
-        return value === currentUser.email;
-      },
-    },
+      }
+    }
   };
 
   const { name, email } = formValues;
@@ -70,7 +68,6 @@ export default function Profile({
   const handleInputChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      console.log(e.target);
       setFormValues((prevState) => ({ ...prevState, [name]: value }));
       setServerError({
         failed: false,
@@ -179,7 +176,7 @@ export default function Profile({
               </span>
             )}
             <button
-              disabled={isSubmitBtnDisabled}
+              disabled={isSubmitBtnDisabled || processing}
               className={`profile__submit-btn ${
                 disabled ? "profile__submit-btn_disabled" : ""
               } ${active ? "profile__submit-btn_visible" : ""}`}

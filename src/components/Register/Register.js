@@ -5,7 +5,7 @@ import { useState, useCallback } from "react";
 import { useEffect } from "react";
 import { validators, validateInputs } from "../../utils/validation";
 
-export default function Register({ children, onRegisterBtn, serverError }) {
+export default function Register({ children, onRegisterBtn, serverError, processing }) {
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -63,6 +63,7 @@ export default function Register({ children, onRegisterBtn, serverError }) {
             required
             minLength="2"
             maxLength="30"
+            disabled={processing}
           ></input>
           <span className="register__errorMessage register__errorMessage_small">
             {errors.name.required && "Это обязательное поле"}
@@ -80,6 +81,7 @@ export default function Register({ children, onRegisterBtn, serverError }) {
             onChange={handleInputChange}
             type="email"
             required
+            disabled={processing}
           ></input>
           <span className="register__errorMessage register__errorMessage_small">
             {errors.email.required && "Это обязательное поле"}
@@ -97,6 +99,7 @@ export default function Register({ children, onRegisterBtn, serverError }) {
             name="password"
             onChange={handleInputChange}
             type="password"
+            disabled={processing}
           ></input>
           <span className="register__errorMessage">
             {errors.password.required && "Это обязательное поле"}
@@ -110,6 +113,7 @@ export default function Register({ children, onRegisterBtn, serverError }) {
           <SubmitButton
             name={"Зарегистрироваться"}
             isSubmitBtnDisabled={isSubmitBtnDisabled}
+            processing={processing}
           />
           <Link to="/signin" className="register__link">
             Уже зарегистрированы?{" "}

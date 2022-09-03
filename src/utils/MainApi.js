@@ -6,10 +6,10 @@ class MainApi {
 
   _checkResponse(res) {
     if (!res.ok) {
-      console.log('res', res)
+      
       //return Promise.reject(`Error: ${res.status}`)
       return res.json().then((data) => {
-        console.log('data.message', data.message)
+        
         throw new Error(data.message);
         
       });
