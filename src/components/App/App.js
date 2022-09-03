@@ -72,11 +72,9 @@ function App() {
   const [shortMovie, setShortMovie] = useState(false);
   const [processing, setProcessing] = useState(false);
 
-  // console.log('windowInnerWidth', windowInnerWidth)
-  // console.log('moviesToDisplay', moviesToDisplay)
-  console.log("authorized", authorized);
-  console.log("location.pathname", location.pathname);
+ 
   console.log("shortMovie App", shortMovie);
+  console.log("savedMovies", savedMovies);
 
   useEffect(() => {
     if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
@@ -112,6 +110,25 @@ function App() {
 
   useEffect(() => {
     if (shortMovie) {
+      if (localStorage.allFoundMovies) {
+        setFilteredMovies(
+          filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
+        );
+      } else {
+        //setFilteredMovies(filterShortMovies(initialMovies));
+        setFilteredMovies([]);
+      }
+    } else {
+      if (localStorage.allFoundMovies) {
+        setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+      } else {
+        setFilteredMovies([]);
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (shortMovie) {
       if (savedMovies.length === 0) {
         setSavedMoviesForRender([]);
       } else {
@@ -127,7 +144,8 @@ function App() {
   }, [shortMovie, savedMovies]);
 
   useEffect(() => {
-    handleShortMovieBtn();
+    //handleShortMovieBtn();
+    handleShortMovieBtnOnSavedMoviesPage()
     getSavedMovies();
     setServerError({
       failed: false,
@@ -143,7 +161,7 @@ function App() {
     if (localStorage.shortMovieMoviesPage) {
       setShortMovie(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
     } else {
-      setShortMovie(undefined);
+      setShortMovie(false);
     }
   }, []);
 

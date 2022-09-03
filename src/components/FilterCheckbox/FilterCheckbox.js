@@ -24,7 +24,7 @@ export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
       if (localStorage.shortMovieMoviesPage) {
           setChecked(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
         } else {
-          setChecked(undefined);
+          setChecked(false);
         }
     } 
      //if (location.pathname === '/saved-movies') {
