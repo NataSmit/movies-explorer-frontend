@@ -27,5 +27,8 @@ https://www.figma.com/file/kDSMb0oWIr0Dgq4MJWTHTi/Diploma-(Copy)?node-id=891%3A3
 *Информация о серевере*
 
 IP: 51.250.105.253
-Backend: https://api.movie.service.nomoredomains.xyz
-Frontend: https://movie.service.nomoredomains.xyz
+Backend: https://api.movie.service.nomoredomains.xyz  
+Frontend: https://movie.service.nomoredomains.xyz  
+
+*Пул реквест*
+https://github.com/NataSmit/movies-explorer-frontend/pull/3
