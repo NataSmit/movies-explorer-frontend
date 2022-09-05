@@ -72,11 +72,6 @@ function App() {
   const [shortMovie, setShortMovie] = useState(false);
   const [processing, setProcessing] = useState(false);
 
-  //console.log('windowInnerWidth >= SMALLSCREEN', windowInnerWidth >= SMALLSCREEN)
-  console.log("windowInnerWidth", windowInnerWidth);
-  console.log("finalNumberOfMoviesToDisplay", finalNumberOfMoviesToDisplay);
-  console.log("moviesToDisplay", moviesToDisplay);
-
   useEffect(() => {
     setFinalNumberOfMoviesToDisplay(moviesToDisplay);
     if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
