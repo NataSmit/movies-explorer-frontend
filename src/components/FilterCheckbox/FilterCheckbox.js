@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 export default function FilterCheckbox({ setShortMovie, handleShortMovieBtn }) {
   const [checked, setChecked] = useState(false);
   const location = useLocation()
-  console.log('checked filtercheckbox', checked)
 
   function handleChange() {
     setChecked(!checked);

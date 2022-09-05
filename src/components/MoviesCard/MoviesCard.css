@@ -161,4 +161,8 @@
     line-height: 15px;
   }
 
+  .moviesCard__delete-btn {
+    display: block;
+  }
+
 }

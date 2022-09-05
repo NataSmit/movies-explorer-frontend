@@ -72,9 +72,13 @@ function App() {
   const [shortMovie, setShortMovie] = useState(false);
   const [processing, setProcessing] = useState(false);
 
-  console.log("shortMovie App", shortMovie);
+  //console.log('windowInnerWidth >= SMALLSCREEN', windowInnerWidth >= SMALLSCREEN)
+  console.log("windowInnerWidth", windowInnerWidth);
+  console.log("finalNumberOfMoviesToDisplay", finalNumberOfMoviesToDisplay);
+  console.log("moviesToDisplay", moviesToDisplay);
 
   useEffect(() => {
+    setFinalNumberOfMoviesToDisplay(moviesToDisplay);
     if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
       setMoviesToDisplay(CARDSNUMBERONBIGSCREEN);
     } else if (
@@ -211,7 +215,6 @@ function App() {
     setFilteredMovies(
       shortMovie ? filterShortMovies(allFoundMovies) : allFoundMovies
     );
-    //setFilteredMovies(allFoundMovies)
   }
 
   function filterShortMovies(moviesArr) {
@@ -226,7 +229,6 @@ function App() {
           filterShortMovies(JSON.parse(localStorage.getItem("allFoundMovies")))
         );
       } else {
-        //setFilteredMovies(filterShortMovies(initialMovies));
         setFilteredMovies([]);
       }
     } else {
