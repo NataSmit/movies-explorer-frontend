@@ -30,5 +30,4 @@ IP: 51.250.105.253
 Backend: https://api.movie.service.nomoredomains.xyz  
 Frontend: https://movie.service.nomoredomains.xyz  
 
-*Пул реквест*  
-https://github.com/NataSmit/movies-explorer-frontend/pull/4
+*Пул реквест* https://github.com/NataSmit/movies-explorer-frontend/pull/5
