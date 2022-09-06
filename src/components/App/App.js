@@ -74,7 +74,7 @@ function App() {
 
   useEffect(() => {
     setFinalNumberOfMoviesToDisplay(moviesToDisplay);
-    if (BIGSCREEN >= windowInnerWidth && windowInnerWidth >= MEDIUMSCREEN) {
+    if (windowInnerWidth >= MEDIUMSCREEN) {
       setMoviesToDisplay(CARDSNUMBERONBIGSCREEN);
     } else if (
       MEDIUMSCREEN >= windowInnerWidth &&
