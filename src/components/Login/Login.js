@@ -3,7 +3,12 @@ import SubmitButton from "../SubmitButton/SubmitButton";
 import { Link } from "react-router-dom";
 import { loginValidators, validateLoginInputs } from "../../utils/validation";
 
-export default function Login({ children, onLoginBtn, serverError, processing }) {
+export default function Login({
+  children,
+  onLoginBtn,
+  serverError,
+  processing,
+}) {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -21,10 +26,26 @@ export default function Login({ children, onLoginBtn, serverError, processing })
   const isEmailInvalid = Object.values(errors.email).some(Boolean);
   const isPasswordInvalid = Object.values(errors.password).some(Boolean);
   const isSubmitBtnDisabled = isEmailInvalid || isPasswordInvalid;
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [passwordDirty, setPasswordDirty] = useState(false);
 
   useEffect(() => {
     validateLoginInputs(loginValidators, email, password, setErrors);
   }, [formValues, setErrors]);
+
+  function blurHandler(e) {
+    switch (e.target.name) {
+      case "email":
+        setEmailDirty(true);
+        break;
+      case "password":
+        setPasswordDirty(true);
+        break;
+      default:
+        setEmailDirty(false);
+        setPasswordDirty(false);
+    }
+  }
 
   const handleInputChange = useCallback(
     (e) => {
@@ -47,24 +68,31 @@ export default function Login({ children, onLoginBtn, serverError, processing })
         <form className="register__form" onSubmit={handleSubmit}>
           <label className="register__lable">E-mail</label>
           <input
-            className="register__input"
+            className={`register__input ${
+              isEmailInvalid && emailDirty ? "register__input_invalid" : ""
+            }`}
             value={email}
             name="email"
             onChange={handleInputChange}
             type="email"
             required
             disabled={processing}
+            onBlur={blurHandler}
           ></input>
           <span className="register__errorMessage register__errorMessage_small">
-            {errors.email.required && "Это обязательное поле"}
+            {emailDirty && errors.email.required && "Это обязательное поле"}
             <React.Fragment>
               <br />
             </React.Fragment>
-            {errors.email.emailFormat && "Электронная почта не валидна"}
+            {emailDirty &&
+              errors.email.emailFormat &&
+              "Электронная почта не валидна"}
           </span>
           <label className="register__lable">Пароль</label>
           <input
-            className="register__input"
+            className={`register__input ${
+              isPasswordInvalid && passwordDirty ? "register__input_invalid" : ""
+            }`}
             value={password}
             name="password"
             onChange={handleInputChange}
@@ -72,9 +100,12 @@ export default function Login({ children, onLoginBtn, serverError, processing })
             required
             minLength="3"
             disabled={processing}
+            onBlur={blurHandler}
           ></input>
           <span className="register__errorMessage">
-            {errors.password.required && "Это обязательное поле"}
+            {passwordDirty &&
+              errors.password.required &&
+              "Это обязательное поле"}
           </span>
 
           {serverError.failed && (

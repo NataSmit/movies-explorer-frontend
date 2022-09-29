@@ -37,10 +37,13 @@
   color: #FFFFFF;
 }
 
-.register__input:invalid {
+/*.register__input:invalid {
+  border: 1px solid red;
+}*/
+
+.register__input_invalid {
   border: 1px solid red;
 }
-
 
 .register__link {
   font-size: 14px;
