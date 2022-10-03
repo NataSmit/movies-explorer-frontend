@@ -51,6 +51,15 @@
   background-color: white;
 }
 
+.searchForm__button:disabled {
+  background-color: gray;
+}
+
+.searchForm__button:hover:disabled {
+  cursor: auto;
+  opacity: 1;
+}
+
 @media(max-width: 1190px) {
   .searchForm__input {
     width: 654px;

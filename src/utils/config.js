@@ -1,0 +1,7 @@
+export const SHORTMOVIESDURATION = 40;
+export const BIGSCREEN = 1280;
+export const MEDIUMSCREEN = 1190;
+export const SMALLSCREEN = 768;
+export const CARDSNUMBERONBIGSCREEN = 12;
+export const CARDSNUMBERONMEDIUMSCREEN = 8;
+export const CARDSNUMBERONSMALLSCREEN = 5;
